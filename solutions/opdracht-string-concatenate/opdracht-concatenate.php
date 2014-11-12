@@ -1,3 +1,24 @@
+
+
+<?php
+
+    $name           =   'Carl' ;
+    $surname        =   'Vanderwegen' ;
+    $fullname       =   $name   .   " " .   $surname ;
+    $volledigeNaam  =   $fullname;
+    $namelen        =   strlen( $fullname )
+
+
+?>
+
+
+
+
+
+
+
+
+
 <!doctype html>
 <html>
     <head>
@@ -15,10 +36,10 @@
     		<h1>Opdracht string concatenate: deel 1</h1>
 
     		<ul>
-                <li>Plaats je voornaam en familienaam in afzonderlijke variabelen</li>
-                <li>Concateneer beide variabelen en stop ze in een nieuwe variabele <code>$volledigeNaam</code></li>
-                <li>Druk de variabele af</li>
-                <li>Druk vervolgens het aantal karakters in <code>$volledigeNaam</code> af op een nieuwe lijn</li>
+                <li> <?php echo $name ?> <?php echo $surname ?></li>
+                <li><?php echo $fullname ?></li>
+                <li><?php echo $volledigeNaam ?></li>
+                <li> <?php echo $namelen;  ?> </li>
     		</ul>
 
         </section>
