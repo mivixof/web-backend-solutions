@@ -51,7 +51,7 @@
                 <li>Maak een variabele <code>fruit</code> met waarde <?php echo $fruit?></li>
                 <li>Bepaal de positie van de laatste 'a' in de variabele <?php echo $fruita ?>.</li>
                 <li>Druk deze waarde af.</li>
-                <li>Zet het de value van de <?php echo $fruitcaps?> variable in hoofdletters enkel door gebruik te maken van een PHP-functie.</li>
+                <li>Zet de value van de <?php echo $fruitcaps?> variable in hoofdletters enkel door gebruik te maken van een PHP-functie.</li>
             </ul>
       
     		<h1>Opdracht string extra functions: deel 3</h1>
