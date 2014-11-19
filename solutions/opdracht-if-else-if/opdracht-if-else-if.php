@@ -6,12 +6,50 @@ $lower      =   $lower * 10 ;
 $upper      =   $lower + 10 ;
 
 /*
-if ($number <= upper && $number >= lower  ) {
-    # code...
+if ($number <= 10 && $number >= 20  ) {
+    $lower      =   10 ;
+    $upper      =   10 + $lower ;
 }
 
-*/
+elseif ($number <= 20 && $number >= 30  ) {
+    $lower      =   20 ;
+    $upper      =   10 + $lower ;
+}
 
+elseif ($number <= 30 && $number >= 40  ) {
+    $lower      =   30 ;
+    $upper      =   10 + $lower ;
+}
+elseif ($number <= 40 && $number >= 50  ) {
+    $lower      =   40 ;
+    $upper      =   10 + $lower ;
+}
+elseif ($number <= 50 && $number >= 60  ) {
+    $lower      =   50 ;
+    $upper      =   10 + $lower ;
+}
+elseif ($number <= 60 && $number >= 70  ) {
+    $lower      =   60 ;
+    $upper      =   10 + $lower ;
+}
+elseif ($number <= 70 && $number >= 80  ) {
+    $lower      =   70 ;
+    $upper      =   10 + $lower ;
+}
+elseif ($number <= 80 && $number >= 90  ) {
+    $lower      =   80 ;
+    $upper      =   10 + $lower ;
+}
+elseif ($number <= 90 && $number >= 100  ) {
+    $lower      =   90 ;
+    $upper      =   10 + $lower ;
+}
+
+else
+{
+    $text       =   $number . "does not lie between 0 and 100"
+}
+*/
 
 
 if ($number >  100) 
