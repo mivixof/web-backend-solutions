@@ -1,25 +1,24 @@
 <?php
 
-$year       =   "1999" ;
+$year       =   "200" ;
 $leap       =   FALSE ;
 $four       =   $year % 4 ;
 $century    =   $year % 100 ;
 $fourhundred =  $year % 400 ;
 
-if ( ( (  $four == 0 ) && ( $century != 0 ) ) || ( $fourhundred == 0 )  )
+if ( ( (  $four == 0 ) && ( $century !== 0 ) ) || ( $fourhundred == 0 )  )
     {
         $leap = true ;
-    };
+    }
 
 if ($leap == false) 
     {
         $printleap = "not " ;
-    };
-
-if ($leap == true) 
+    }
+else
     {
         $printleap = "" ;
-    };
+    }
 
 /*or shorthand $printleap     =   ($leap)?    ""  ;   "not ";*/
 
@@ -32,14 +31,14 @@ $hour       =   60 * $min ;
 $day        =   24 * $hour ; 
 $week       =   7 * $day ; 
 $month      =   31 * $day ; 
-$year       =   365 * $day ;
+$yeartime       =   365 * $day ;
 
 $amountmin      =   floor($secs / $min ) ;
 $amounthour     =   floor($secs / $hour ) ;
 $amountday      =   floor($secs / $day ) ;
 $amountweek     =   floor($secs / $week ) ;
 $amountmonth    =   floor($secs / $month ) ;
-$amountyear     =   floor($secs / $year ) ;
+$amountyear     =   floor($secs / $yeartime ) ;
 
 
 

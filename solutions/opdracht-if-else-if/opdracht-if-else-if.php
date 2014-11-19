@@ -1,12 +1,39 @@
 
 <?php
-$number     =   22 ;
+$number     =   21 ;
 $lower      =   floor($number / 10 ) ;
 $lower      =   $lower * 10 ;
 $upper      =   $lower + 10 ;
-$text       =   'the number ' . $number . ' lies between ' . $lower . ' and ' .$upper;
+
+/*
+if ($number <= upper && $number >= lower  ) {
+    # code...
+}
+
+*/
+
+
+
+if ($number >  100) 
+{
+    $text       =   $number . " Serious? I don't work above 100";
+}
+elseif ($number < 0 ) 
+{
+    $text       =   $number . " Don't be so negative";
+}
+else 
+{
+    $text       =   'the number ' . $number . ' lies between ' . $lower . ' and ' .$upper;
+}
+
 
 $reversetext    =   strrev($text);
+
+
+
+
+
 ?>
 <!doctype html>
 <html>
