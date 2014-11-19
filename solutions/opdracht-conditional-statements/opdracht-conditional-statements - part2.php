@@ -40,10 +40,22 @@ if ( $number == 7 )
     $day = 'zondag'; 
 } 
 
-$day        =   strtoupper($day);
-$day        =   str_replace('A', 'a', $day);
-$lasta      =   strrpos($day , 'a');
-$day        =   substr_replace($day , 'a', $lasta , 1); /*looked at the sollutions, why the 1 */
+$displayday =   $day;
+
+
+$displayday        =   strtoupper($displayday);
+$displaydaykappa        =   str_replace('A', 'a', $displayday);
+$lasta             =   strrpos($displayday , 'A');
+$displaydayreplace        =   substr_replace($displayday , 'a', $lasta , 1); /*looked at the sollutions, why the 1 (will replace all from lasta in day )*/
+
+
+if (!($number >= 1 && $number <= 7)) 
+{
+    $displaydaykappa =   'unknown';
+    $displaydayreplace='unknown';
+
+}
+
 
 ?>
 
@@ -63,7 +75,9 @@ $day        =   substr_replace($day , 'a', $lasta , 1); /*looked at the sollutio
 	</title>
 </head>
 <body>
-<p>If the number = 1 than the day is <?php echo $day; ?></p>
+<p>If the number = <?php echo "$number" ; ?> than the day is <?php echo $day; ?></p>
+<p>If the number = <?php echo "$number" ; ?> than the day is <?php echo $displaydaykappa; ?></p>
+<p>If the number = <?php echo "$number" ; ?> than the day is <?php echo $displaydayreplace; ?></p>
 </body>
 </html>
 
