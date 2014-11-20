@@ -21,10 +21,10 @@ $vehicles2["in water"]       =  array("ship" , "jetski")  ;
 $vehicles2["in air"]       =  array("airbus") ;
 
 
-$numbers        = array('1' , '2' , '3' , '4' , '5' );
+$numbers        =   array('1' , '2' , '3' , '4' , '5' );
 $multi          =   array_product($numbers);
-$arraylength    =  count ( $numbers );
-$reverse        =  array_reverse( $numbers );
+$arraylength    =   count ( $numbers );
+$reversenumbers        =   array_reverse( $numbers );
 
 
 foreach ($numbers as $value ) 
@@ -39,9 +39,9 @@ foreach ($numbers as $value )
 
 foreach ($numbers as $key => $value) 
 {
-    if ( isset( $reverse[ $key ] ))
+    if ( isset( $reversenumbers[ $key ] ))
       {
-         $sums[ $key ]  =  $reverse[ $key ] + $value;
+         $sums[ $key ]  =  $reversenumbers[ $key ] + $value;
       }
 }
 
@@ -49,10 +49,10 @@ foreach ($numbers as $key => $value)
 
 
 
+var_dump( $animals) ;
 var_dump( $animals2) ;
-var_dump( $animals2) ;
-var_dump($vehicles) ;
-var_dump($vehicles2) ;
+var_dump( $vehicles) ;
+var_dump( $vehicles2) ;
 ?>
 
 
@@ -130,7 +130,7 @@ var_dump($vehicles2) ;
                 </li>
 
                 <li>Maak een tweede array waarin je de getallen 5, 4, 3, 2, 1 in plaatst
-                    <ul><?php foreach ($reverse as $key => $value): ?>
+                    <ul><?php foreach ($reversenumbers as $key => $value): ?>
                         <li>[ <?php echo "$key";?> ] -- <?php echo "$value";?></li>
                     <?php endforeach?>
                     </ul>
