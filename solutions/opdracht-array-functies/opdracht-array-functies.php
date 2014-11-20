@@ -10,13 +10,17 @@ $animals[]      =   "cat";
 $amount         =   count($animals);
 
 $search         =   "pug";
+$found          =   false ;
 
 $found          =   in_array($search , $animals );
 
-if ($found = true) 
+
+if ($found == true) 
 {
     $text       =   $search . " was found";
-} else {
+} 
+else
+{
     $text       =   $search . " was not found";
 }
 
