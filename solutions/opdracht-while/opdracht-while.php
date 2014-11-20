@@ -1,28 +1,27 @@
 <?php
-    
+  
 $numbers            =   array();
-
+ /* 
 for ($hundred=0; $hundred <101 ; ++$hundred) 
 { 
     $numbers[] = $hundred;
-
-
 }
+*/
 
-/*
-$hundred = 0
+$hundred = 0;
 while ($hundred <101) 
 {
     $numbers [] = $hundred;
     ++$hundred;
 }
-*/
+
 
 
 
 
 #40-80 d3
 #var_dump($numbers);
+/*
 $tris               =   array();
 for ($hundreds=0; $hundreds <101 ; ++$hundreds) 
 { 
@@ -32,7 +31,18 @@ for ($hundreds=0; $hundreds <101 ; ++$hundreds)
     }
 
 }
+*/
 
+$tris               =   array();
+$hundreds           =   0;
+while ($hundreds <101)
+{ 
+    if ($hundreds % 3 ==0 && $hundreds <80 && $hundreds>40) 
+    {
+        $tris[] = $hundreds;
+    }
+    ++$hundreds;
+}
 #var_dump($tris);
 
 
@@ -43,6 +53,8 @@ $col                =   0;
 
 
 /*
+
+#did shorthand in html( line )
 while ($row <= 10) 
 {
     $col                =   1;
@@ -57,14 +69,6 @@ while ($row <= 10)
 
 var_dump($tables);
 */
-
-
-
-
-
-
-
-
 
 ?>
 
