@@ -1,0 +1,19 @@
+<?php
+	$tekst 			= 	'Test 123...' ;
+	$tekst2 		= 	'Test 456' ;
+	$tekst3			= 	'test' ;
+	$zin 			= 	"Jean D'Haeseleir gaat naar Praag!!" ;
+	$beschrijving 	= 	"Vogelbekdier" ; 
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+	<h1>Foutjes verbeterd</h1>
+
+</body>
+</html>
