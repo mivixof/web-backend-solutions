@@ -51,8 +51,6 @@ $variety            =   count($uniquecount);
 
 $lowtext            =   strtolower($text); 
 
-$uniquecount        =   array_count_values($sortchars) ;
-
 
 
 
@@ -74,20 +72,19 @@ for ($counter = 0; $counter < $filterlength; ++$counter )
     $filtertextchars[]   =   substr( $filtered, $counter, 1 );
 }
 
-
+sort($filtertextchars);
 
 $filteruniquecount        =   array_count_values($filtertextchars) ;
 
-
-#count uniques
 $filtervariety            =   count($filteruniquecount);
+
 
 
 /*
 
 1. reg expres
 
-if (preg_replace("/[^a-z]/",'') {
+if (preg_replace("/[^a-z]/",'',$text) {
   echo "Match was found <br />";
   echo $matches[0];
 }
@@ -101,10 +98,23 @@ if (preg_match($filter, $text) == 1)
     $textchars2[]   =   substr( $lowtext, $counter, 1 );
 }
 }
+
+
+suggestion
+
+
+$counter = 0;
+$lorem = preg_split('//', $intext, -1, PREG_SPLIT_NO_EMPTY);
+
+foreach($chars as $character)
+{
+if (preg_match($character))
+ $counter++
+}
 */
 
-var_dump($length);
-var_dump($filtertextchars);
+#var_dump($length);
+#var_dump($filteruniquecount );
 # var_dump($uniquecount) ;
 #var_dump($variety) ;
 
@@ -168,9 +178,11 @@ var_dump($filtertextchars);
                     <div class="facade-minimal" data-url="http://www.app.local/index.php">
                         
                         <ul>
-                            <li>E x 265</li>
-                            <li>A x 245</li>
-                            <li>...</li>
+                        
+                            <?php foreach ($filteruniquecount as $key => $value): ?>
+                            <li> <?php echo "$key";?>  x <?php echo "$value";?></li>
+                            <?php endforeach?>
+
                         </ul>
 
                     </div>
