@@ -27,6 +27,7 @@ for ($counter = 0; $counter < $length; ++$counter )
     $textchars[]   =   substr( $text, $counter, 1 );
 }
 
+#$textchars          =   str_split($text)
 
 #reverse sort (z-a)
 $revsortchars       =   $textchars;
@@ -34,6 +35,9 @@ $revsortchars       =   $textchars;
 rsort($revsortchars) ;
 
 #sort (a-z)
+
+#$sortchars          =   array_reverse($textchars)
+
 $sortchars          =   $textchars ;
 
 sort($sortchars) ;
@@ -78,6 +82,31 @@ $filteruniquecount        =   array_count_values($filtertextchars) ;
 
 $filtervariety            =   count($filteruniquecount);
 
+
+
+
+/*
+or
+
+$filtervariety      =   count_chars($lowtext );
+$alfabet            =   array ();
+
+
+for ($charnum = 65; $charnum  <= 90 ; ++ $charnum ) 
+{ 
+    
+    if (isset($filtervariety [$charnum] ) ) 
+    {
+        
+    $charord        =   chr($charnum);
+    
+    $alfabet  [$char]    =   $filtervariety [$charnum];
+
+}
+
+
+}
+*/
 
 
 /*
