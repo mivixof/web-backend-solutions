@@ -16,7 +16,10 @@ while ($hundred <101)
 }
 
 
-
+/*
+$numberstring       =   join($numbers ", ")
+#echo in html
+*/
 
 
 #40-80 d3
