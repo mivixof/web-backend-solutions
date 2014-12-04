@@ -28,7 +28,7 @@ Oh, I know perfectly well why this is the case, it's because Ubisoft want to kee
 Either we're doing the future thing or we're not. I'd prefer, Assassin's Creed, if you'd just make a clean break, not string us along with the occasional flirt and vague promises of getting together for lunch real soon now. I have quite enough uncomfortable reminders of my mid-twenties love life around.
 
 ";
-$articles[0]["image"]               =   "img/arno";
+$articles[0]["image"]               =   "img/arno.jpg";
 $articles[0]["imagedescription"]    =   "AC Arno character description";
 $articles[0]["source"]              =   "http://www.escapistmagazine.com/articles/view/video-games/columns/extra-punctuation/12695-Assassin-s-Creed-Unity-Plot-Holes-Plague-Arno-s-Character";
 $articles[0]["author"]              =   'BEN "YAHTZEE" CROSHAW ';
@@ -54,15 +54,56 @@ This review was based on a purchased retail copy of Assassin’s Creed Unity for
 $articles[1]["image"]               =   "http://wac.450f.edgecastcdn.net/80450F/arcadesushi.com/files/2014/09/assassins-creed-unity-630x420.jpg";
 $articles[1]["imagedescription"]    =   "assassins-creed-unity-630x420.jpg";
 $articles[1]["source"]              =   "http://arcadesushi.com/assassins-creed-unity-review-playstation-4/";
+$articles[1]["author"]              =   "John Llewellyn Martin";
 
 
 
 
+//no content
+
+$Nothing 				=		false; 
+
+
+//one content
+
+$single					=		false; 
+
+//more content
+
+$multiple				=		false; 
+
+
+
+
+
+
+
+
+if (isset($_GET["id"])) 
+{
+	$id = $_GET['id'];
+
+	if (array_key_exists( $id , $articles )) 
+	{
+		$single					=		true; 
+	} 
+	else 
+	{
+		$Nothing 				=		true;
+	}
+}
+else 
+{
+	$multiple				=		true; 
+}
 
 //var_dump($articles)
 
-
 /*
+
+str_replace ( "\r\n", "</p><p>", substr($value["content"], 0, 60 )) . "..." : str_replace ( "\r\n", "</p><p>", $value["content"])
+
+
 C&P area
 
 
@@ -73,12 +114,18 @@ $articles[1]["content"]             =   ;
 $articles[1]["image"]               =   ;
 $articles[1]["imagedescription"]    =   ;
 $articles[1]["source"]              =   ;
+$articles[1]["author"]              =   ;
+
+
+<?php if ($Nothing == true): ?>
+
+<p>Page 404 not found, <?= $id ?> does not resemble any of our data</p>
+
+<?php else ;?>
+
+<?php endif ?>
 
 */
-
-
-
-
 
 ?>
 
@@ -91,19 +138,135 @@ $articles[1]["source"]              =   ;
         <link rel="stylesheet" href="http://web-backend.local/css/global.css">
         <link rel="stylesheet" href="http://web-backend.local/css/facade.css">
         <link rel="stylesheet" href="http://web-backend.local/css/directory.css">
+
+
+        <style>
+
+
+        	h1
+        	{
+        		font-weight: bold;
+        		font-size: 32px;
+        	}
+
+        	h2
+        	{
+        		font-size: 24px;
+        	}
+
+			body
+			{
+				font-family: "Comic Sans MS", verdana, helvetica, "sans serif";
+				color: #000000;
+			}
+
+			.main
+			{
+				width:	1000px;
+				margin:	0 auto;
+			}
+
+			img
+			{
+				width: 100%;
+			}
+
+			.multi
+			{
+				float: left;
+				width: 288px;
+				margin: 16px;
+				padding: 16px;
+				background-color: #EEEEEE;
+			}
+
+			.multi h1
+			{
+				font-weight: bold;
+        		font-size: 24px;
+			}
+
+			.multiple:nth-child(3n+1)
+			{
+				margin-left: 0px;
+			}
+
+			.multiple:nth-child(3n)
+			{
+				margin-right: 0px;
+			}
+
+			.single img
+			{
+				float: right;
+				margin-left: 16px;
+			}
+
+
+		</style>
     </head>
 
-
 	<body class="web-backend-opdracht">
-    
-		<H1><?= $articles[0]['title'] ?></H1>
-
-		
-
-		<p></p>
+	
 
 
 
+
+
+		<div class="main">
+
+			    
+				<?php if ($Nothing == true): ?>
+
+					<p>Page 404 not found, <?= $id ?> does not resemble any of our data</p>
+
+				<?php else: ?>
+
+				    		<?php if ($multiple == true): ?>
+
+								<?php foreach ($articles as $id => $value): ?> 
+
+									<div class="multi">
+
+										<H1><?= $value["title"] ?></H1>
+
+										
+										<p><img src="<?= $value["image"] ?>" alt="<?= $value["imagedescription"] ?>"> </p>
+
+										<p> <?= str_replace ( "\r\n", "</p><p>", substr($value["content"], 0, 60 )) . " ..."  ?></p>
+
+										<p><a href="index.php?id=<?= $id?>">Read on</a></p>	
+
+									</div>
+
+								<?php endforeach?>  
+
+							<?php else: ?>
+
+								<div class="single">
+
+									<H1><?= $articles[$id]["title"] ?></H1>
+
+									<h2>By  <?= $articles[$id]["author"]  ?> ,  <?= $articles[$id]["date"] ?> .</h2> 
+
+									<p><img src="<?= $articles[$id]["image"] ?>" alt="<?= $articles[$id]["imagedescription"] ?>"> </p>
+
+									<p><?= str_replace ( "\r\n", "</p><p>", $articles[$id]["content"]) ?>  </p> 
+
+								<p>Author: <a href="<?= $articles[$id]["author"] ?>"><?= $articles[$id]["author"] ?>.</a></p>
+
+								<p><a href="<?= $articles[$id]["source"] ?>">Original.</a></p>	
+
+								<p><a href="index.php">Home</a></p>	
+
+								</div>
+
+							<?php endif?>
+
+
+			<?php endif ?>
+
+		</div>
 
 
 
