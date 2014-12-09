@@ -57,21 +57,25 @@ $articles[1]["source"]              =   "http://arcadesushi.com/assassins-creed-
 $articles[1]["author"]              =   "John Llewellyn Martin";
 
 
-
-
 //no content
-
 $Nothing 				=		false; 
 
-
 //one content
-
 $single					=		false; 
 
 //more content
-
 $multiple				=		false; 
 
+
+
+isset($_GET["search"]);
+$search = $_GET['search'];
+
+foreach ($articles as $keys => $value) {
+	$isthere 		=		array_search($search, $value["content"]);
+}
+
+var_dump($is);
 
 
 
@@ -223,6 +227,11 @@ $articles[1]["author"]              =   ;
 				<?php else: ?>
 
 				    		<?php if ($multiple == true): ?>
+
+				    			<form action="index.php" method="GET">
+				    				<label for="search">search</label>
+				    				<input type="text" id="search" name="search">
+				    			</form>
 
 								<?php foreach ($articles as $id => $value): ?> 
 
