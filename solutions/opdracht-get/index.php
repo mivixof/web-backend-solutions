@@ -71,14 +71,24 @@ $multiple				=		false;
 isset($_GET["search"]);
 $search = $_GET['search'];
 
-foreach ($articles as $keys => $value) {
-	$isthere 		=		array_search($search, $value["content"]);
+if (isset($_POST ["submit"])) 
+{
+	$needle		=	$_POST["search"] ;
+	$found		=	array() ;
+
+
+	foreach ($articles as $id => $art) 
+	{
+		$haystack				=		array_search($search, $value["content"]);
+		$isfound 	=	strpos( $haystack, $needle );
+
+		if( $isfound !== false )
+			{
+				$found[ $id ]	=	$artikel;
+			}
+	}
+
 }
-
-var_dump($is);
-
-
-
 
 
 
@@ -228,7 +238,7 @@ $articles[1]["author"]              =   ;
 
 				    		<?php if ($multiple == true): ?>
 
-				    			<form action="index.php" method="GET">
+				    			<form action="$_SERVER["PHP_SELF"]" method="POST">
 				    				<label for="search">search</label>
 				    				<input type="text" id="search" name="search">
 				    			</form>
@@ -244,7 +254,7 @@ $articles[1]["author"]              =   ;
 
 										<p> <?= str_replace ( "\r\n", "</p><p>", substr($value["content"], 0, 60 )) . " ..."  ?></p>
 
-										<p><a href="index.php?id=<?= $id?>">Read on</a></p>	
+										<p><a href="$_SERVER["PHP_SELF"]"?id="<?= $id?>">Read on</a></p>	
 
 									</div>
 
@@ -266,7 +276,7 @@ $articles[1]["author"]              =   ;
 
 								<p><a href="<?= $articles[$id]["source"] ?>">Original.</a></p>	
 
-								<p><a href="index.php">Home</a></p>	
+								<p><a href="$_SERVER["PHP_SELF"]">Home</a></p>	
 
 								</div>
 

@@ -6,11 +6,20 @@ $password           =   "xivimmivix";
 $message    =   'please fill in a username and password.';
 
 
+
+
+
+            $usernamepost       =   $_POST['username'] ;
+
+            $passwordpost       =   $_POST['password'] ;
+
 if ( isset( $_POST ['submit'] ) )
     {
-        if ( $_POST['username'] == $username && $_POST['password'] == $password )
+        if ( $usernamepost == $username && $passwordpost == $password )
         {
             $message    =   'Welcome';
+
+
         }
         else
         {
@@ -67,19 +76,32 @@ if ( isset( $_POST ['submit'] ) )
 
                                 <p> <?php echo $message; ?></p>
 
+
+
+
+
+
+                                <?php if (condition): ?>
+                                    
+                                <?php endif ?>
+
                                 <form action="opdracht-post.php" method="POST">
                                     <ul>
                                         <li>
                                             <label for="username">gebruikersnaam</label>
-                                            <input type="text" id="username" name="username">
+                                            <input type="text" id="username" name="username" set"<?= $usernamepost ; ?>">
                                         </li>
                                         <li>
                                             <label for="password">paswoord</label>
-                                            <input type="password" id="password" name="password">
+                                            <input type="password" id="password" name="password" set"<?= $passwordpost ; ?>">
                                         </li>
                                     </ul>
                                     <input type="submit" name="submit">
                                 </form>
+
+
+
+
                             </div>
 
                         </li>
