@@ -2,22 +2,36 @@
 
 
 
+session_start();
+
+	$email			= 	(isset($_SESSION["adress"]["email"])) 		? $_SESSION["adress"]["email"] : " ";
+	$nicname		=	(isset($_SESSION["adress"]["nicname"])) 	? $_SESSION["adress"]["nicname"] : " ";
+	$straat			= 	(isset($_SESSION["adress"]["straat"])) 		? $_SESSION["adress"]["straat"] : " ";
+	$nummer			=	(isset($_SESSION["adress"]["nummer"])) 		? $_SESSION["adress"]["nummer"] : " ";
+	$gemeente		= 	(isset($_SESSION["adress"]["gemeente"])) 	? $_SESSION["adress"]["gemeente"] : " ";
+	$postcode		=	(isset($_SESSION["adress"]["postcode"])) 	? $_SESSION["adress"]["postcode"] : " ";
+
+if (isset($_POST["submit"])) 
+{
+	$_SESSION["adress"]["email"]			=	$_POST["email"];
+	$_SESSION["adress"]["nicname"]			=	$_POST["nicname"];
+	$_SESSION["adress"]["straat"]			=	$_POST["straat"];
+	$_SESSION["adress"]["nummer"]			=	$_POST["nummer"];
+	$_SESSION["adress"]["gemeente"]			=	$_POST["gemeente"];
+	$_SESSION["adress"]["postcode"]			=	$_POST["postcode"];
+}
+
+
+
+$straat			=	" ";
+$nummer			=	" ";
+$gemeente		=	" ";
+$postcode		=	" ";
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+var_dump($_SESSION["adress"]);
 
 
 
@@ -30,7 +44,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Opdracht sessions</title>
+        <title>overview</title>
         <link rel="stylesheet" href="http://web-backend.local/css/global.css">
         <link rel="stylesheet" href="http://web-backend.local/css/facade.css">
     </head>

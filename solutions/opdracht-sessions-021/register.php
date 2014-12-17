@@ -16,21 +16,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
   ?><!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Opdracht sessions</title>
+        <title>register</title>
         <link rel="stylesheet" href="http://web-backend.local/css/global.css">
         <link rel="stylesheet" href="http://web-backend.local/css/facade.css">
     </head>
@@ -47,18 +38,18 @@
                         
                         <div class="facade-minimal" data-url="http://www.app.local/opdracht-sessions-pagina-01-registratie.php">
                             <h1>Deel 1: registratiegegevens</h1>
-                            <form>
+                            <form method="post" action="adress.php">
                                 <ul>
                                     <li>
                                         <label for="email">e-mail</label>
-                                        <input type="text" id="email">
+                                        <input type="text" id="email" name="email">
                                     </li>
                                     <li>
                                         <label for="nickname">nickname</label>
-                                        <input type="text" id="nickname">
+                                        <input type="text" id="nickname" name="nicname">
                                     </li>
                                 </ul>
-                                <input type="submit" value="Volgende">
+                                <input type="submit" value="Volgende" name="next">
                             </form>
                         </div>
 

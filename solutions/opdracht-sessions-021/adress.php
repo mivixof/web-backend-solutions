@@ -1,17 +1,51 @@
  <?php 
 
+session_start();
+
+	$email			= (isset($_SESSION["register"]["email"])) ? $_SESSION["register"]["email"] : " ";
+	$nicname		=	(isset($_SESSION["register"]["nicname"])) ? $_SESSION["register"]["nicname"] : " ";
+
+if (isset($_POST["submit"])) 
+{
+	$_SESSION["register"]["email"]			=	$_POST["email"];
+	$_SESSION["register"]["nicname"]		=	$_POST["nicname"];
+}
+
+
+
+$straat			=	" ";
+$nummer			=	" ";
+$gemeente		=	" ";
+$postcode		=	" ";
 
 
 
 
+var_dump($_POST);
 
 
+/*
 
+<label for="straat">straat</label>
+            <input type="text" id="straat" name="straat">
+        </li>
+        <li>
+            <label for="nummer">nummer</label>
+            <input type="number" id="nummer" name="nummer">
+        </li>
+        <li>
+            <label for="gemeente">gemeente</label>
+            <input type="text" id="gemeente" name="gemeente">
+        </li>
+        <li>
+            <label for="postcode">postcode</label>
+            <input type="text" id="postcode" name="postcode">
+        </li>
+    </ul>
+    <input type="submit" value="Volgende" name="submit">
+</form>
 
-
-
-
-
+*/
 
 
 
@@ -30,7 +64,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Opdracht sessions</title>
+        <title>adress</title>
         <link rel="stylesheet" href="http://web-backend.local/css/global.css">
         <link rel="stylesheet" href="http://web-backend.local/css/facade.css">
     </head>
@@ -57,26 +91,26 @@
                             </ul>
 
                             <h1>Deel 2: adres</h1>
-                            <form>
+                            <form method="post" action="overview.php">
                                 <ul>
                                     <li>
                                         <label for="straat">straat</label>
-                                        <input type="text" id="straat">
+                                        <input type="text" id="straat" name="straat">
                                     </li>
                                     <li>
                                         <label for="nummer">nummer</label>
-                                        <input type="number" id="nummer">
+                                        <input type="number" id="nummer" name="nummer">
                                     </li>
                                     <li>
                                         <label for="gemeente">gemeente</label>
-                                        <input type="text" id="gemeente">
+                                        <input type="text" id="gemeente" name="gemeente">
                                     </li>
                                     <li>
                                         <label for="postcode">postcode</label>
-                                        <input type="text" id="postcode">
+                                        <input type="text" id="postcode" name="postcode">
                                     </li>
                                 </ul>
-                                <input type="submit" value="Volgende">
+                                <input type="submit" value="Volgende" name="submit">
                             </form>
                         </div>
 
