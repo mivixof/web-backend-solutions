@@ -17,6 +17,10 @@ if ($username)
 }
     
 $password           =   isset($_POST ["password"]);
+if ($password) 
+{
+    $pass               =   $_POST ["password"];
+}
     
 $submit             =   isset($_POST ["submit"]);
     
@@ -113,23 +117,6 @@ if ($forget)
 
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
