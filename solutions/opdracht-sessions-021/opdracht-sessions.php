@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php 
+=======
+ <?php 
+>>>>>>> af4535d6ced418828aad08a36cd0609f09aab1f1
 
 
 
@@ -14,7 +18,10 @@
 
 
 
+<<<<<<< HEAD
  ?>
+=======
+>>>>>>> af4535d6ced418828aad08a36cd0609f09aab1f1
 
 
 
@@ -25,7 +32,12 @@
 
 
 
+<<<<<<< HEAD
  <!doctype html>
+=======
+
+  ?><!doctype html>
+>>>>>>> af4535d6ced418828aad08a36cd0609f09aab1f1
 <html>
     <head>
         <meta charset="utf-8">
