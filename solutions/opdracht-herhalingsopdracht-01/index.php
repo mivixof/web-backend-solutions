@@ -1,18 +1,16 @@
 <?php 
 
 
-
-
-
+    $referenceGuide =   false;
+    $voorbeelden    =   false;
+    $oplossingen    =   false;
+    $search         =   false;
+    $showlink       =    "";
+$search = "";
  if (isset($_GET["search"])) 
 {
     $search = $_GET["search"];
 }
-elseif (isset($_GET["link"])) 
-{
-    $link = $_GET["link"];
-}
-
 
 
 
@@ -24,25 +22,34 @@ foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as
 }
 
 */
+$link = "";
+if (isset($_GET["link"])) 
+{
+    $link = $_GET["link"];
 
-switch ($link) {
-    case "cursusreference-guide":
-        $showlink =    file_get_contents("..\..\..\cursus\public\cursus\web-backend-cursus.pdf");
-;
-        break;
-    case "voorbeelden":
-        $showlink =   realpath("..\..\..\cursus\public\cursus\voorbeelden");
+switch ($link) 
+    {
+        case "cursusreference-guide":
+            $referenceGuide     =   true;
+    
+            break;
 
-        break;
-    case "oplossingen":
-        $showlink =  realpath("..");
-        break;
+        case "voorbeelden":
+            $showlink =   realpath("..\..\..\cursus\public\cursus");
+            $voorbeelden    =   true;
 
-    default:
-        $showlink = "";
-        break;
+            break;
+
+        case "oplossingen":
+            $showlink =  realpath("..");
+            $oplossingen    =   true;
+            break;
+
+        default:
+            $showlink = "";
+            break;
+    }
 }
-
 
 /*
 
@@ -58,6 +65,11 @@ switch ($link) {
 
 
 var_dump($showlink);
+
+
+
+
+
 
  ?>
 
@@ -107,7 +119,7 @@ var_dump($showlink);
                         <form action="index.php" method="GET">
 
                             <label id="search">search for:</label>
-                            <input type="text" name="search" id="search" placeholder="Quarry">
+                            <input type="text" name="search" id="search" placeholder="query">
 
                             <input type="submit">
 
@@ -116,7 +128,7 @@ var_dump($showlink);
 
 
 
-                        <iframe src="">
+                        
 
 
 
@@ -125,7 +137,7 @@ var_dump($showlink);
 
                             <ul>
 
-                            <?php  foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($showlink)) as $filename): ?>
+                            <?php  foreach (new RecursiveDirectoryIterator($showlink) as $filename): ?>
 
                             <li>
 
@@ -136,14 +148,13 @@ var_dump($showlink);
                             <?php endforeach ?>
 
                             </ul>
-
-                        <?php elseif ($link == "cursusreference-guide"): ?>
-
-                        <?= $showlink ?>
-
+                        <?php endif ?>
+                        <?php if ($link == "cursusreference-guide"): ?>
+                        <iframe src="..\..\..\cursus\public\cursus\web-backend-cursus.pdf">
+                        </iframe>
                         <?php endif ?>
 
-                        </iframe>
+                        
 
 
 
