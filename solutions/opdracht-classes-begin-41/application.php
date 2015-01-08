@@ -1,7 +1,10 @@
-<?php
+
+
+
+ <?php 
 
 	function __autoload( $className ) {
-	    include 'classes/' . $className . '-class.php';
+	    include 'classes/' . $className . '.php';
 	}
 
 	$new	=	150;
@@ -9,37 +12,37 @@
 
 	$percent = new Percent( $new, $unit );
 
-?>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
+ ?>
 
-	<style>
-	
-	table
-	{
-		border-collapse:collapse;
 
-	}
 
-	td
-	{
-		padding:6px;
-		border:1px solid #666666;
-	}
 
-	td:last-child
-	{
-		text-align:right;
-	}
+ <!DOCTYPE html>
+ <html>
+ <head>
+ 	<title>classes 1</title>
 
-	</style>
+         <style>
+            table
+            {
+                border:1px solid lightgrey;
+                border-collapse:collapse;
+                max-width:350px;
+            }
 
-</head>
-<body>
+             td
+            {
+                border:1px solid lightgrey;
+                padding:12px;
+            }
+        </style>
+ </head>
 
+
+
+ <body>
+ 
 <table>
 	<caption>Hoeveel procent is <?php echo $new ?> van <?php echo $unit ?>?</caption>
 	<tr>
@@ -60,5 +63,6 @@
 	</tr>
 </table>
 
-</body>
-</html>
+ 
+ </body>
+ </html>
