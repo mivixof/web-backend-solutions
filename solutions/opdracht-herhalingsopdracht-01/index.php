@@ -5,12 +5,7 @@
     $voorbeelden    =   false;
     $oplossingen    =   false;
     $search         =   false;
-    $showlink       =    "";
-$search = "";
- if (isset($_GET["search"])) 
-{
-    $search = $_GET["search"];
-}
+
 
 
 
@@ -62,6 +57,39 @@ switch ($link)
 
 
 */
+
+
+
+
+
+
+ if (isset($_GET["search"])) 
+{
+    $search = $_GET["search"];
+
+$tempar1    =   array();
+$tempar2   =   array();
+foreach (new RecursiveDirectoryIterator("..\..\..\cursus\public\cursus\voorbeelden") as $filename)
+{
+    $tempar1[]    =   $filename;
+}
+foreach (new RecursiveDirectoryIterator("..") as $filename)
+{
+    $tempar2[]    =   $filename;
+}
+$allfile  =   array_merge( $tempar1, $tempar2 );
+
+foreach ( $allfile as $file )
+        {
+            $foundstring = strpos( $file[], $zoekString );
+
+            if ( $foundstring !== false )
+            {
+                $resultaten[]   =   $file;
+            }
+        }
+
+}
 
 
 var_dump($showlink);

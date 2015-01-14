@@ -2,19 +2,19 @@
 
 	class Zebra extends Animal
 	{
-		protected $lionSpecies;
+		protected $Species;
 
 		public function __construct(  $name, $sex, $health, 
-$lionSpecies )
+$Species )
 		{
 			parent::__construct( $name, $sex, $health );
 			
-			$this->lionSpecies = $lionSpecies;
+			$this->Species = $Species;
 		}
 
 		public function getSpecies()
 		{
-			return $this->lionSpecies;
+			return $this->Species;
 		}
 
 	}
