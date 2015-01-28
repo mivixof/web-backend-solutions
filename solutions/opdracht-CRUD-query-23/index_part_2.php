@@ -1,11 +1,15 @@
 <?php 
 
+
+ define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ] );
+
+
 $message	=	'';
 $selection 		=	'';
 
 try
 {
-	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'root' );
+	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'xivimmivix' );
 
 	$sql = 'SELECT  brnaam, brouwernr	 		
 	 		FROM brouwers';
@@ -23,30 +27,23 @@ $brouwers []		=	$rows;
 }
 
 
-
-if (isset($_GET["nr"])) 
+$selection 	=	1;
+if (isset($_GET["brouwernr"])) 
 {
-	$selection 	=	$_GET["nr"];
-
+	$selection 	=	$_GET["brouwernr"];
+}
 
 	$sql	=	'SELECT naam
 				FROM bieren 
-				WHERE bieren.brouwernr = brouwernr';
+				WHERE brouwernr = :brouwernr';
 
 	$statement = $db->prepare( $sql );
 
-	$statement->bind_value( 'brouwernr', $_GET[ 'nr' ] );
+	$statement->bindValue( ':brouwernr', $selection );
 
-}
- else
-{
-	$sql 		=	'SELECT naam
-					FROM bieren '; 
+	$statement->execute();
 
-			$statement = $db->prepare( $sql );
-}
 
-$statement->execute();
 
 $header	=	array();
 
@@ -138,16 +135,15 @@ var_dump($colnames);
 	<?php endif ?>
 
 
-	<form action="<?= $_SERVER['PHP_SELF'] ?>" method="GET">
+	<form action="<?= BASE_URL ?>" method="GET">
 		
 		<select name="brouwernr">
-			<?php foreach ($brouwers as $key => $brouwer): ?>
+			<?php foreach ($brouwers as $brouwer): ?>
 				<option value="<?= $brouwer['brouwernr'] ?>" <?= ( $selection === $brouwer['brouwernr'] ) ? 'selected' : '' ?>><?= $brouwer['brnaam'] ?></option>
 			<?php endforeach ?>
 		</select>
 		<input type="submit" value="submit">
 	</form>
-
 
 
 
