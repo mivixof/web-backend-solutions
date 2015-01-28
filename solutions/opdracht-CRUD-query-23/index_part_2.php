@@ -5,19 +5,18 @@ $selection 		=	'';
 
 try
 {
-	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'xivimmivix' );
+	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'root' );
 
 	$sql = 'SELECT  brnaam, brouwernr	 		
 	 		FROM brouwers';
 
 
 $statement		=	$db->prepare($sql);
+
 $statement->execute();
 
-
-
-
 $brouwers 		=	array();
+
 while ($rows=$statement->fetch( PDO::FETCH_ASSOC))
 {
 $brouwers []		=	$rows;
@@ -44,14 +43,13 @@ if (isset($_GET["nr"]))
 	$sql 		=	'SELECT naam
 					FROM bieren '; 
 
-
 			$statement = $db->prepare( $sql );
 }
 
 $statement->execute();
 
-
 $header	=	array();
+
 $header[]	=	'Aantal';
 
 for ($colnr = 0; $colnr  < $statement->columnCount( );  ++$colnr) 
@@ -66,8 +64,6 @@ while( $row = $statement->fetch( PDO::FETCH_ASSOC ) )
 	$bieren[ ]	=	$row[ 'naam' ];
 }
 
-
-
 }
 
 catch ( PDOException $e )
@@ -81,6 +77,9 @@ var_dump($statement);
 var_dump($bieren);
 var_dump($colnames);
 */
+
+
+
  ?>
 
 
@@ -141,30 +140,16 @@ var_dump($colnames);
 
 	<form action="<?= $_SERVER['PHP_SELF'] ?>" method="GET">
 		
-			<?php foreach ($brouwers as $key => $brouwer): ?>
-			<?= $brouwer['nr'] ?>
-			<?php endforeach ?>
-		
-		<input type="submit" value="submit">
-	</form>
-
-
-
-
-
-
-
-<!--
-	<form action="<?= $_SERVER['PHP_SELF'] ?>" method="GET">
-		
 		<select name="brouwernr">
 			<?php foreach ($brouwers as $key => $brouwer): ?>
-				<option value="<?= $brouwer['nr'] ?>" <?= ( $selection === $brouwer['nr'] ) ? 'selected' : '' ?>><?= $brouwer['brnaam'] ?></option>
+				<option value="<?= $brouwer['brouwernr'] ?>" <?= ( $selection === $brouwer['brouwernr'] ) ? 'selected' : '' ?>><?= $brouwer['brnaam'] ?></option>
 			<?php endforeach ?>
 		</select>
 		<input type="submit" value="submit">
 	</form>
--->
+
+
+
 
 
 
