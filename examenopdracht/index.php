@@ -1,14 +1,10 @@
 <?php 
 
+	 define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ] );
 
- define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ] );
+	session_start();
 
-session_start();
-
-
-
-
-switch (isset($_POST) )
+	switch (isset($_POST) )
 	{
 
 		##add the todo's to the session
@@ -23,12 +19,16 @@ switch (isset($_POST) )
 
 			else
 			{
-				$_SESSION['not'][]	= 	$_POST['description'];	
+				## make sure there are no "dangerous " characters in string for HTML (verbetering op voorbeeld)
+				 $a 		=	array( '<' , '>' , '\\' , '=' , '-' , '/' , '*'	); 
+				$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' ); 
+				$_SESSION['not'][]	=	str_replace($a, $b, $_POST['description']); 
 			}
 
 		break;
 		
 		## change the item from done to not done and vice verca
+		## copy over and delete the old one
 		case isset($_POST['toggleTodo']):
 
 			$toggle 		=	$_POST['toggleTodo'];
@@ -47,9 +47,9 @@ switch (isset($_POST) )
 				unset($_SESSION['done'][$toggle]);
 			}
 
-
 		break;
 
+		##remove the entity from th session, doing it once for both threw an error
 		case isset($_POST['deleteTodo']):
 
 			$delete 		=	$_POST['deleteTodo'];
@@ -69,68 +69,60 @@ switch (isset($_POST) )
 		default: break;
 	}
 
-
-if (isset($_SESSION['not'])) 
-{
-	if (count($_SESSION['not']) == 0) 
+	#set the conditions for the "empty" array messages
+	if (isset($_SESSION['not'])) 
 	{
-		unset($_SESSION['not']);
+		if (count($_SESSION['not']) == 0) 
+		{
+			unset($_SESSION['not']);
+		}
 	}
-}
 
-if (isset($_SESSION['done'])) 
-{
-	if (count($_SESSION['done']) == 0) 
+	if (isset($_SESSION['done'])) 
 	{
-		unset($_SESSION['done']);
+		if (count($_SESSION['done']) == 0) 
+		{
+			unset($_SESSION['done']);
+		}
 	}
-}
 
-
-$info 	= array();
-$info 	=	$_SESSION;
-
-
-var_dump($_POST)
+	##  use array in stead of the _SESSION 
+	$info 	= 	array();
+	$info 	=	$_SESSION;
 
  ?>
+
+
+
 
 
 <!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="description" content="">
         <title>Todo App</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
 
+
+
+
     <body>
-
-
 
 
 	<?php if (isset($message)):?>
 
+
 	 	<div class="modal error">
-	            	<h2><?= $message ?></h2>           
+
+
+	            	<p><?= $message ?></p>           
+
+
 	            </div>
 
-                <?php endif ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<?php endif ?>
 
 
 
@@ -139,6 +131,7 @@ var_dump($_POST)
 
    	 <?php if ((isset($info['not'])) ||  (isset($info['done'])) ) :?>
 						
+
 		<h2>Nog te doen</h2>
 
 
@@ -149,15 +142,16 @@ var_dump($_POST)
 
 					<?php foreach ($info['not'] as $key => $value) : ?>
 
+
 						<li>
-							
+
 							<form action="<?= BASE_URL ?>" method="POST">
 
 								<button title="Status wijzigen" name="toggleTodo" value="<?=$key?>" class="status not-done"><?=$value?></button>
 
 								<button title="Verwijderen" name="deleteTodo" value="<?=$key?>">Verwijder</button>
-							</form>
 
+							</form>
 						</li>
 
 
@@ -181,24 +175,29 @@ var_dump($_POST)
 
 			<?php if (isset($info['done'])): ?>
 
+
 				<ul>
+
 
 					<?php foreach ($info['done'] as $key => $value):?>
 
 
+					<li>
 
 						<form action="<?= BASE_URL ?>" method="POST">
-							<button title="Status wijzigen" name="toggleTodo" value="<?=$key?>" class="status done"><?=$value?></button>
-							
-							<button title="Verwijderen" name="deleteTodo" value="<?=$key?>">Verwijder</button>
-						</form>
 
+							<button title="Status wijzigen" name="toggleTodo" value="<?=$key?>" class="status done"><?=$value?></button>
+
+							<button title="Verwijderen" name="deleteTodo" value="<?=$key?>">Verwijder</button>
+
+						</form>
+					</li>
 
 
 					<?php  endforeach?>
 
-				</ul>
 
+				</ul>
 
 
 			<?php else: ?>
@@ -219,8 +218,6 @@ var_dump($_POST)
 	<?php endif; ?>
 
 
-		
-		
 	<h1>Todo toevoegen</h1>
 
 	<form action="<?= BASE_URL ?>" method="POST">
@@ -228,6 +225,7 @@ var_dump($_POST)
 		<ul> 
 			<li>
 				<label for="description">Beschrijving: </label>
+				
 				<input type="text" id="description" name="description" autofocus>
 			</li>
 		</ul>
@@ -235,5 +233,7 @@ var_dump($_POST)
 		<input type="submit" name="addTodo" value="Toevoegen">
 
 	</form>
+
     </body>
+
 </html>
