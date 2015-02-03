@@ -1,7 +1,7 @@
 <?php 
 
 
-ry
+try
 {
 	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', '' );
 
@@ -9,10 +9,7 @@ ry
 	 		
 	 		FROM brouwers
 	 			INNER JOIN bieren
-	 			ON bieren.brouwernr = brouwers.brouwernr
-	 		
-	 		WHERE bieren.naam LIKE "Du%"
-	 			AND brouwers.brnaam like "%a%"';
+	 			ON bieren.brouwernr = brouwers.brouwernr';
 
 
 $statement		=	$db->prepare($sql);
