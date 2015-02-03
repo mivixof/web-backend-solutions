@@ -4,14 +4,10 @@
 
 	session_start();
 
-	switch (isset($_POST) )
-	{
 
 		##add the todo's to the session
-		case isset($_POST['addTodo']):
-
-
-
+		if( isset($_POST['addTodo']))
+		{
 			if ($_POST['description'] == '' ) 
 			{
 				$message 	=	'Ahh, damn. Lege todos zijn niet toegestaan...';
@@ -24,13 +20,13 @@
 				$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' ); 
 				$_SESSION['not'][]	=	str_replace($a, $b, $_POST['description']); 
 			}
+		}
 
-		break;
-		
+
 		## change the item from done to not done and vice verca
 		## copy over and delete the old one
-		case isset($_POST['toggleTodo']):
-
+		if( isset($_POST['toggleTodo']))
+		{
 			$toggle 		=	$_POST['toggleTodo'];
 
 			if (isset($_SESSION['not'][$toggle] )) 
@@ -46,12 +42,12 @@
 
 				unset($_SESSION['done'][$toggle]);
 			}
+		}
 
-		break;
 
 		##remove the entity from th session, doing it once for both threw an error
-		case isset($_POST['deleteTodo']):
-
+		if( isset($_POST['deleteTodo']))
+		{
 			$delete 		=	$_POST['deleteTodo'];
 
 			if (isset($_SESSION['not'][$delete] )) 
@@ -63,11 +59,8 @@
 			{
 				unset($_SESSION['done'][$delete]);
 			}
+		}
 
-		break;
-
-		default: break;
-	}
 
 	#set the conditions for the "empty" array messages
 	if (isset($_SESSION['not'])) 
