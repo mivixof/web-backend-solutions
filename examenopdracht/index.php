@@ -5,6 +5,8 @@
 	session_start();
 
 
+		## make associative array $info ["done/not"][#][string]
+
 		##add the todo's to the session
 		if( isset($_POST['addTodo']))
 		{
@@ -16,8 +18,8 @@
 			else
 			{
 				## make sure there are no "dangerous " characters in string for HTML (verbetering op voorbeeld)
-				 $a 		=	array( '<' , '>' , '\\' , '=' , '-' , '/' , '*'	); 
-				$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' ); 
+				 $a 		=	array( '<' , '>' , '\\' , '=' , '-' , '/' , '*' ,'!'	); 
+				$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' , '&#33;'); 
 				$_SESSION['not'][]	=	str_replace($a, $b, $_POST['description']); 
 			}
 		}
@@ -31,14 +33,14 @@
 
 			if (isset($_SESSION['not'][$toggle] )) 
 			{
-				$_SESSION['done'][$toggle] 	=	$_SESSION['not'][$toggle] ;
+				$_SESSION['done'][] 	=	$_SESSION['not'][$toggle] ;
 
 				unset($_SESSION['not'][$toggle]);
 			}
 
 			elseif (isset($_SESSION['done'][$toggle] ))
 			{
-				$_SESSION['not'][$toggle] 	=	$_SESSION['done'][$toggle] ;
+				$_SESSION['not'][] 	=	$_SESSION['done'][$toggle] ;
 
 				unset($_SESSION['done'][$toggle]);
 			}
