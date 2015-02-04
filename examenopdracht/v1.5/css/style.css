@@ -1,0 +1,104 @@
+
+
+
+html {
+  color:#454545;
+  font-family:sans-serif;
+}
+ul {
+  list-style-type:none;
+}
+li {
+  display:table-row;
+  margin-bottom:12px;
+}
+[name="toggleTodo"] {
+  background-color:transparent;
+  border:0;
+  cursor:pointer;
+  font-size:20px;
+  margin:0;
+  outline-width:0;
+  padding:0 0 0 22px;
+  position:relative;
+}
+[name="toggleTodo"]::before {
+  background-color:#D3D3D3;
+  border-radius:100%;
+  box-shadow:rgba(0, 0, 0, 0.0784314) 0 2px 0 inset;
+  content:'';
+  display:block;
+  height:18px;
+  left:0;
+  position:absolute;
+  top:2px;
+  width:18px;
+}
+.not-done {
+}
+.not-done:hover {
+  text-decoration:line-through;
+}
+.not-done:hover::before {
+  background-color:#55F855;
+  content:'';
+}
+.done {
+  text-decoration:line-through;
+}
+.done::before {
+  background-color:#55F855;
+  content:'';
+}
+.done:hover {
+  text-decoration:none;
+}
+.done:hover::before {
+  background-color:#D3D3D3;
+}
+[name="deleteTodo"] {
+  background-color:red;
+  border:0;
+  border-radius:100%;
+  box-shadow:rgba(0, 0, 0, 0.0784314) 0 2px 0 inset;
+  color:transparent;
+  cursor:pointer;
+  display:inline-block;
+  float:right;
+  font-size:0;
+  height:18px;
+  margin:3px 0 0 6px;
+  outline-width:0;
+  position:relative;
+  width:18px;
+}
+[name="deleteTodo"]::before {
+  color:white;
+  content:'X';
+  font-size:10px;
+  font-weight:bold;
+  left:0;
+  line-height:18px;
+  position:absolute;
+  text-align:center;
+  top:0;
+  width:18px;
+}
+.modal {
+  border-radius:3px;
+}
+.error {
+  background-color:red;
+  color:white;
+  line-height:32px;
+}
+.error::before {
+  content:'!';
+  display:inline-block;
+  float:left;
+  font-size:32px;
+  font-weight:bold;
+  height:32px;
+  text-align:center;
+  width:32px;
+}
