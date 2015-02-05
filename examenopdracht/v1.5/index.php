@@ -4,8 +4,19 @@
 
 	session_start();
 
+
+
+
+
+
+
 var_dump($_POST, $_SESSION);
-/*
+
+
+
+
+
+
 	if ( isset( $_POST['session'] ) )
     {
         if ( $_POST['session']  == 'destroy' )
@@ -16,11 +27,10 @@ var_dump($_POST, $_SESSION);
     }
 
 
-*/
 
 		## make associative array $info ["done/not"][#][string] --> error in slooping
-    						## $info [#]  	[done/not] 
-    						##			[string]
+    						## $_SESSION[info] [#]  	[done/not] 
+    						##					[string]
 
 		##add the todo's to the session
 		if( isset($_POST['addTodo']))
@@ -36,7 +46,7 @@ var_dump($_POST, $_SESSION);
 				$a 		=	array( '<' , '>' , '\\' , '=' , '-' , '/' , '*' ,'!' ); 
 				$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' , '&#33;'); 
 				$written	=	str_replace($a, $b, $_POST['description']); 
-				$_SESSION []	=  array('not' , '$written');
+				$_SESSION ['info'] []	=  array('done' =>0 , 'string' => $written);
 			}
 		}
 
@@ -47,18 +57,14 @@ var_dump($_POST, $_SESSION);
 		{
 			$toggle 		=	$_POST['toggleTodo'];
 
-			if (isset($_SESSION [$toggle] ['not'] )) 
+			if ($_SESSION ['info'] [$toggle] ['done']	 = 	0 )
 			{
-				$_SESSION [$toggle] ['done'] 	=	$_SESSION [$toggle] ['not'] ;
-
-				unset($_SESSION [$toggle] ['not']);
+				$_SESSION ['info'] [$toggle] ['done'] 	=	1;
 			}
 
-			elseif (isset($_SESSION['done'][$toggle] ))
+			elseif ($_SESSION ['info'] [$toggle] ['done']	 = 	1 )
 			{
-				$_SESSION['not'][] 	=	$_SESSION['done'][$toggle] ;
-
-				unset($_SESSION['done'][$toggle]);
+				$_SESSION ['info'] [$toggle] ['done'] 	=	0;
 			}
 		}
 
@@ -66,40 +72,67 @@ var_dump($_POST, $_SESSION);
 		##remove the entity from th session, doing it once for both threw an error
 		if( isset($_POST['deleteTodo']))
 		{
+
 			$delete 		=	$_POST['deleteTodo'];
 
-			if (isset($_SESSION['not'][$delete] )) 
-			{
-				unset($_SESSION['not'][$delete]);
-			}
+			unset($_SESSION ['info'] [$delete]);
 
-			elseif (isset($_SESSION['done'][$delete] ))
-			{
-				unset($_SESSION['done'][$delete]);
-			}
+
 		}
 
 
 	#set the conditions for the "empty" array messages
-	if (isset($_SESSION['not'])) 
+	if (isset($_SESSION ['info'] ['not'])) 
 	{
-		if (count($_SESSION['not']) == 0) 
+		if (count($_SESSION ['info'] ['not']) == 0) 
 		{
-			unset($_SESSION['not']);
+			unset($_SESSION ['info'] ['not']);
 		}
 	}
 
-	if (isset($_SESSION['done'])) 
+	if (isset($_SESSION ['info'] ['done'])) 
 	{
-		if (count($_SESSION['done']) == 0) 
+		if (count($_SESSION ['info'] ['done']) == 0) 
 		{
-			unset($_SESSION['done']);
+			unset($_SESSION ['info'] ['done']);
 		}
 	}
 
 	##  use array in stead of the _SESSION 
 	$info 	= 	array();
-	$info 	=	$_SESSION;
+	$info 	=	$_SESSION ['info'] ;
+
+
+
+
+	## $_SESSION[info] [#]  	[done/not]  [1/0]
+	##					[string] ['']
+
+	## display 
+	## key = done
+	## value = bool/string
+
+	foreach ($info as $key => $value) 
+
+	{
+		
+	}
+
+
+
+
+
+
+
+
+
+var_dump($_POST, $_SESSION,$info);
+
+
+
+
+
+
 
  ?>
 
@@ -242,10 +275,11 @@ var_dump($_POST, $_SESSION);
 		</ul>
 
 		<input type="submit" name="addTodo" value="Toevoegen">
-<!--	<button title="reset list" name="session" value="destroy" class=""> reset list</button> -->
-
+		
 	</form>
-
+	<form action="<?= BASE_URL ?>" method="POST">
+		<button title="reset list" name="session" value="destroy" class=""> reset list</button> 
+	</form>
 
     </body>
 
