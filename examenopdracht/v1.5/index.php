@@ -81,41 +81,50 @@ var_dump($_POST, $_SESSION);
 		}
 
 
-	#set the conditions for the "empty" array messages
-	if (isset($_SESSION ['info'] ['not'])) 
-	{
-		if (count($_SESSION ['info'] ['not']) == 0) 
-		{
-			unset($_SESSION ['info'] ['not']);
-		}
-	}
-
-	if (isset($_SESSION ['info'] ['done'])) 
-	{
-		if (count($_SESSION ['info'] ['done']) == 0) 
-		{
-			unset($_SESSION ['info'] ['done']);
-		}
-	}
-
 	##  use array in stead of the _SESSION 
 	$info 	= 	array();
 	$info 	=	$_SESSION ['info'] ;
 
 
 
+if (isset($info)) 
+{
+	$done	=	0;
+	$not	=	0;
+	foreach ($info as $key) 
+	{
+		if ($key = 'done') 
+		{
+			($key['done'] == 0) ? ++$not : ++$done ;
+		}
 
-	## $_SESSION[info] [#]  	[done/not]  [1/0]
-	##					[string] ['']
+	}
 
+
+}
+
+
+
+
+
+
+
+	## $_SESSION[info] 	[#]  	[done]  	[1/0]
+	##							[string] 	['']
+	##			$info	[#]		
+	##					$key 	$value
 	## display 
 	## key = done
 	## value = bool/string
 
-	foreach ($info as $key => $value) 
-
+	foreach ($info as $key) 
 	{
-		
+		($key ['done'] == 0) ? print($key['string']) : '' ;
+	}
+
+	foreach ($info as $key) 
+	{
+		($key ['done'] == 1) ? print($key['string']) : '' ;
 	}
 
 
@@ -125,8 +134,7 @@ var_dump($_POST, $_SESSION);
 
 
 
-
-var_dump($_POST, $_SESSION,$info);
+var_dump($_POST, $_SESSION,$info, $done, $not);
 
 
 
@@ -173,22 +181,23 @@ var_dump($_POST, $_SESSION,$info);
    	 <h1>Todo app</h1>
 
 
-   	 <?php if ((isset($info['not'])) ||  (isset($info['done'])) ) :?>
+   	 <?php if ($done!==0 && $not!==0 ) :?>
 						
 
 		<h2>Nog te doen</h2>
 
 
-			<?php if (isset($info['not'])): ?>
+			<?php if ($not): ?>
 
 						
 				<ul>
 
-					<?php foreach ($info['not'] as $key => $value) : ?>
+					<?php foreach ($info as $key ) : ?>
 
 
+						<?php if ($key['done']==0): ?>
 						<li>
-
+							
 							<form action="<?= BASE_URL ?>" method="POST">
 
 								<button title="Status wijzigen" name="toggleTodo" value="<?=$key?>" class="status not-done"><?=$value?></button>
@@ -198,6 +207,7 @@ var_dump($_POST, $_SESSION,$info);
 							</form>
 						</li>
 
+						<?php endif ?>
 
 					<?php endforeach?>
 
