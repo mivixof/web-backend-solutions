@@ -5,147 +5,85 @@
 	session_start();
 
 
-
-
-
-
-
-var_dump($_POST, $_SESSION);
-
-
-
-
-
-
 	if ( isset( $_POST['session'] ) )
-    {
-        if ( $_POST['session']  == 'destroy' )
-        {
-            session_destroy( );
-            header( $_SERVER[ 'PHP_SELF' ]);
-        }
-    }
-
-
-
-		## make associative array $info ["done/not"][#][string] --> error in slooping
-    						## $_SESSION[info] [#]  	[done/not] 
-    						##					[string]
-
-		##add the todo's to the session
-		if( isset($_POST['addTodo']))
+	{
+		if ( $_POST['session']  == 'destroy' )
 		{
-			if ($_POST['description'] == '' ) 
-			{
-				$message 	=	'pls fill somethng in...';
-			}
+			unset($_SESSION);
+			session_destroy( );
+			header(  BASE_URL);
+		}
+	}
 
-			else
-			{
-				## make sure there are no "dangerous " characters in string for HTML (verbetering op voorbeeld)
-				$a 		=	array( '<' , '>' , '\\' , '=' , '-' , '/' , '*' ,'!' ); 
-				$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' , '&#33;'); 
-				$written	=	str_replace($a, $b, $_POST['description']); 
-				$_SESSION ['info'] []	=  array('done' =>0 , 'string' => $written);
-			}
+
+	## make associative array $info ["done/not"][#][string] --> error in slooping
+						## $_SESSION[info] [#]  	[done/not] 
+						##					[string]
+
+	##add the todo's to the session
+	$message = 0 ;
+	if( isset($_POST['addTodo']))
+	{
+		if ($_POST['description'] == '' ) 
+		{
+			$message 	=	'pls fill somethng in...';
 		}
 
-
-		## change the item from done to not done and vice verca
-		## copy over and delete the old one
-		if( isset($_POST['toggleTodo']))
+		else
 		{
-			$toggle 		=	$_POST['toggleTodo'];
-
-			if ($_SESSION ['info'] [$toggle] ['done']	 = 	0 )
-			{
-				$_SESSION ['info'] [$toggle] ['done'] 	=	1;
-			}
-
-			elseif ($_SESSION ['info'] [$toggle] ['done']	 = 	1 )
-			{
-				$_SESSION ['info'] [$toggle] ['done'] 	=	0;
-			}
+			## make sure there are no "dangerous " characters in string for HTML (verbetering op voorbeeld)
+			$a 		=	array( '<' , '>' , '\\' , '=' , '-' , '/' , '*' ,'!' ); 
+			$b 		=	array( '&lt;' ,  '&gt;' ,  '&#92;' ,  '&#61;' , '&#45;' , '&#47;' , '&#42;' , '&#33;'); 
+			$written	=	str_replace($a, $b, $_POST['description']); 
+			$_SESSION ['info'] []	=  array('done' => 0 , 'string' => $written);
 		}
+	}
+
+
+	## change the item from done to not done and vice verca
+	## copy over and delete the old one
+	if( isset($_POST['toggleTodo']))
+	{
+		$toggle 		=	$_POST['toggleTodo'];
+
+		($_SESSION ['info'] [$toggle] ['done'] 	==	0 ) ? 	 
+			$_SESSION ['info'] [$toggle] ['done'] 	=	1 	: 	
+			$_SESSION ['info'] [$toggle] ['done'] 	=	0	; 
+	}
 
 
 		##remove the entity from th session, doing it once for both threw an error
 		if( isset($_POST['deleteTodo']))
 		{
-
-			$delete 		=	$_POST['deleteTodo'];
+			$delete 		=	$_POST ['deleteTodo'];
 
 			unset($_SESSION ['info'] [$delete]);
-
-
 		}
 
 
 	##  use array in stead of the _SESSION 
 	$info 	= 	array();
-	$info 	=	$_SESSION ['info'] ;
-
-
-
-if (isset($info)) 
-{
 	$done	=	0;
-	$not	=	0;
-	foreach ($info as $key) 
+	$not		=	0;
+	if (isset($_SESSION ['info'] )) 
 	{
-		if ($key = 'done') 
+		$info 	=	$_SESSION ['info'] ;
+
+		foreach ($info as $key) 
 		{
-			($key['done'] == 0) ? ++$not : ++$done ;
+				($key['done'] == 0) ? ++ $not : ++ $done ;
 		}
 
+		## $_SESSION	[info] 	[#]  	[done] 	[1/0]
+		##						[string] 	['']
+		##			$info		[#]		
+		##					$key 	$value
+		## display 
+		## key = done
+		## value = bool/string
 	}
-
-
-}
-
-
-
-
-
-
-
-	## $_SESSION[info] 	[#]  	[done]  	[1/0]
-	##							[string] 	['']
-	##			$info	[#]		
-	##					$key 	$value
-	## display 
-	## key = done
-	## value = bool/string
-
-	foreach ($info as $key) 
-	{
-		($key ['done'] == 0) ? print($key['string']) : '' ;
-	}
-
-	foreach ($info as $key) 
-	{
-		($key ['done'] == 1) ? print($key['string']) : '' ;
-	}
-
-
-
-
-
-
-
-
-var_dump($_POST, $_SESSION,$info, $done, $not);
-
-
-
-
-
-
 
  ?>
-
-
-
 
 
 <!doctype html>
@@ -157,138 +95,95 @@ var_dump($_POST, $_SESSION,$info, $done, $not);
     </head>
 
 
-
-
     <body>
 
-
-	<?php if (isset($message)):?>
-
+	<?php if ($message !== 0):?>
 
 	 	<div class="modal error">
-
-
 	            	<p><?= $message ?></p>           
-
-
 	            </div>
 
-
-	<?php endif ?>
-
-
+	<?php endif; ?>
 
    	 <h1>Todo app</h1>
 
-
-   	 <?php if ($done!==0 && $not!==0 ) :?>
+   	 <?php if (($done == 0 ) && ($not == 0) ) : ?>
 						
+		<p>  You have not added any todos. So litle work? Are you a master planner? </p>
 
-		<h2>Nog te doen</h2>
+	<?php  else: ?>
 
+		<h2>To do</h2>
 
-			<?php if ($not): ?>
-
-						
+			<?php if ($not) : ?>
+	
 				<ul>
+					<?php foreach ($info as $key => $value ) : ?>
 
-					<?php foreach ($info as $key ) : ?>
+						<?php if ($value['done'] == 0): ?>
 
-
-						<?php if ($key['done']==0): ?>
-						<li>
-							
-							<form action="<?= BASE_URL ?>" method="POST">
-
-								<button title="Status wijzigen" name="toggleTodo" value="<?=$key?>" class="status not-done"><?=$value?></button>
-
-								<button title="Verwijderen" name="deleteTodo" value="<?=$key?>">Verwijder</button>
-
-							</form>
-						</li>
+							<li>								
+								<form action="<?= BASE_URL ?>" method="POST">
+									<button title="Status wijzigen" name="toggleTodo" value="<?= $key?>" class="status not-done"><?=$value['string']?></button>
+									<button title="Verwijderen" name="deleteTodo" value="<?=$key?>">Verwijder</button>
+								</form>
+							</li>
 
 						<?php endif ?>
 
 					<?php endforeach?>
 
-
 				</ul>
-		
 
 			<?php else: ?>
 
-
-				<p>Schouderklopje, alles is gedaan!</p>
-
+				<p>Well done, all done</p>
 
 			<?php endif; ?>
 
+		<h2>Done!</h2>
 
-		<h2>Done and done!</h2>
-
-
-			<?php if (isset($info['done'])): ?>
-
+			<?php if ($done): ?>
 
 				<ul>
 
+					<?php foreach ($info as $key => $value ) : ?>
 
-					<?php foreach ($info['done'] as $key => $value):?>
+						<?php if ($value['done']==1): ?>
 
+							<li>								
+								<form action="<?= BASE_URL ?>" method="POST">
+									<button title="change status" name="toggleTodo" value="<?= $key?>" class="status done"><?=$value['string']?></button>
+									<button title="Delete" name="deleteTodo" value="<?=$key?>">Delete</button>
+								</form>
+							</li>
 
-					<li>
+						<?php endif ?>
 
-						<form action="<?= BASE_URL ?>" method="POST">
-
-							<button title="Status wijzigen" name="toggleTodo" value="<?=$key?>" class="status done"><?=$value?></button>
-
-							<button title="Verwijderen" name="deleteTodo" value="<?=$key?>">Verwijder</button>
-
-						</form>
-					</li>
-
-
-					<?php  endforeach?>
-
+					<?php endforeach ;?>
 
 				</ul>
 
-
 			<?php else: ?>
 
-
-				<p>Werk aan de winkel...</p>
-
+				<p>Still some work to do.</p>
 
 			<?php endif; ?>
-
-	
-	<?php  else: ?>
-
-
-		<p>  Je hebt nog geen TODO's toegevoegd. Zo weinig werk of meesterplanner? </p>
-
 
 	<?php endif; ?>
 
 
-	<h1>Todo toevoegen</h1>
+	<h1>Add todo</h1>
 
 	<form action="<?= BASE_URL ?>" method="POST">
-
 		<ul> 
 			<li>
-				<label for="description">Beschrijving: </label>
-				
+				<label for="description">Description: </label>				
 				<input type="text" id="description" name="description" autofocus>
 			</li>
 		</ul>
-
-		<input type="submit" name="addTodo" value="Toevoegen">
-		
-	</form>
-	<form action="<?= BASE_URL ?>" method="POST">
-		<button title="reset list" name="session" value="destroy" class=""> reset list</button> 
+		<input type="submit" name="addTodo" value="Add todo">		
+		<button title="reset list" name="session" value="destroy" class=""> Reset list</button> 
 	</form>
 
     </body>
