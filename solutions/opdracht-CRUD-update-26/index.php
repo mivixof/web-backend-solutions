@@ -6,7 +6,7 @@
 	$message		=	0;
 	$deleteConfirm	=	0;
 	$deleteId		=	0;
-	$edit
+	$edit 			=	0;
 
 try
 {
@@ -26,6 +26,57 @@ $statement->execute();
 			$deleteConfirm	=	1;
 			$deleteId		=	$_POST[ 'confirm' ];
 		}
+
+		if ( isset( $_POST[ 'edit' ] ) )
+		{
+			$edit	=	1;
+			$editId		=	$_POST[ 'edit' ];
+
+			$showeditsql 	=	'SELECT *
+								from brouwers
+								where brouwernr = :brouwernr
+								';
+
+			$showeditstatement = $db->prepare( $showeditsql );
+
+			$showeditstatement->bindValue( ':brouwernr', $_POST['edit'] );
+
+			$editorial 	=	$showeditstatement->execute();
+
+
+		}
+
+
+		if ( isset( $_POST[ 'confirmedit' ] ) )
+		{
+			$editsql = 'UPDATE brouwers
+						set(
+							brouwernr 	= :brouwernr
+							brnaam 		= :brnaam
+							adres 		= :adres
+							postcode 	= :postcode
+							gemeente 	= :gemeente
+							omzet	 	= :omzet	';
+			$delstatement = $db->prepare( $editsql );
+
+			$delstatement->bindValue( ':brouwernr', $_POST['confirmedit'] );
+
+			$deleted 	=	$delstatement->execute();
+
+
+			if ($deleted) 
+			{
+				$message	=	'success';
+			}
+			else 
+			{
+				$message	=	"error: didn't edit cus reasons";
+			}
+		}
+
+
+
+
 
 
 if ( isset( $_POST['delete'] ) )
@@ -150,18 +201,11 @@ var_dump($_POST);
             }
             .red
             {
-            	background-color: #ffffff;
-            	color: #000000;
+            	background-color: #ff0000;
             }
         </style>
  </head>
  <body>
-
-
-
-
-
-
  
 	<?php if ( $message ): ?>
 		<div > 
@@ -181,6 +225,32 @@ var_dump($_POST);
 
 				<button type="submit">
 					Nope!
+				</button>
+
+			</form>
+		</div>
+	<?php endif ?>
+
+	<?php if ( $edit ): ?>
+		<div>
+			Are u sure?
+			<form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+
+
+
+
+			<label for=""></label>
+			input
+			<input type="text" name="" value="" >
+
+
+
+
+
+
+
+				<button type="submit" name="delete" value="<?= $deleteId ?>">
+					Submit
 				</button>
 
 			</form>
@@ -217,7 +287,10 @@ var_dump($_POST);
 							<button type="submit" name="confirm" value="<?= $bier['brouwernr'] ?>" class="delete-button">
 							</button>
 						</td>
-
+						<td>
+							<button type="submit" name="edit" value="<?= $bier['brouwernr'] ?>" class="edit-button">
+							</button>
+						</td>
 				</tr>
 
 			<?php endforeach ?>
