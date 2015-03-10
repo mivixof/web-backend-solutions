@@ -10,7 +10,7 @@
 
 try
 {
-	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', '' );
+	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'xivimmivix' );
 
 	$sql = 'SELECT *
 	 		
@@ -43,6 +43,12 @@ $statement->execute();
 
 			$editorial 	=	$showeditstatement->execute();
 
+			$editar 		=	array();
+			while ($rows=$showeditstatement->fetch( PDO::FETCH_ASSOC))
+			{
+			$editar []		=	$rows;
+			}
+	
 
 		}
 
@@ -59,7 +65,12 @@ $statement->execute();
 							omzet	 	= :omzet	';
 			$delstatement = $db->prepare( $editsql );
 
-			$delstatement->bindValue( ':brouwernr', $_POST['confirmedit'] );
+			$delstatement->bindValue( ":brouwernr", $_POST[ 'brouwernr' ] );						
+			$delstatement->bindValue( ":brnaam",  	$_POST[ 'brnaam' ] );						
+			$delstatement->bindValue( ":adres",  	$_POST[ 'adres' ] );						
+			$delstatement->bindValue( ":postcode",  $_POST[ 'postcode' ] );						
+			$delstatement->bindValue( ":gemeente",  $_POST[ 'gemeente' ] );						
+			$delstatement->bindValue( ":omzet",  	$_POST[ 'omzet' ] );
 
 			$deleted 	=	$delstatement->execute();
 
@@ -235,27 +246,25 @@ var_dump($_POST);
 		<div>
 			Are u sure?
 			<form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-
-
-
-
-			<label for=""></label>
-			input
-			<input type="text" name="" value="" >
-
-
-
-
-
-
-
-				<button type="submit" name="delete" value="<?= $deleteId ?>">
-					Submit
-				</button>
-
+				<label for=""></label>
+				input
+				<input type="text" name="" value="" >
+				<ul>
+					<?php foreach ($editar['data'][0] as $key => $value): ?>
+						
+						<?php if ( $key !== "brouwernr" ): ?>
+							<li>
+								<label for="<?= $key ?>"><?= $key ?></label>
+								<input type="text" id="<?= $key ?>" name="<?= $key ?>" value="<?= $value ?>">
+							</li>
+						<?php endif; ?>
+						
+					<?php endforeach; ?>
+				</ul>
+				<input type="submit" name="edit" value="Wijzigen">
 			</form>
 		</div>
-	<?php endif ?>
+	<?php endif; ?>
 
 
 	<form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
@@ -265,7 +274,7 @@ var_dump($_POST);
 			<tr>
 				<?php foreach ($colnames as $name): ?>
 					<th><?= $name ?></th>
-				<?php endforeach ?>
+				<?php endforeach; ?>
 			</tr>
 		</thead>
 
