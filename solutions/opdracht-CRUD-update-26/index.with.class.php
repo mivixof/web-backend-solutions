@@ -3,6 +3,12 @@
 
 
 
+include_once ('class/database.php');
+
+
+
+
+
 	$message		=	0;
 	$deleteConfirm	=	0;
 	$deleteId		=	0;
@@ -11,6 +17,10 @@
 try
 {
 	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', '' );
+
+
+
+	
 
 	$sql = 'SELECT *
 	 		
@@ -313,5 +323,6 @@ var_dump($_POST);
 		</table>
  </body>
  </html>
+
 
 
