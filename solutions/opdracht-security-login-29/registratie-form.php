@@ -12,8 +12,8 @@
 </head>
 <body>
  <h1>Registreren</h1>
-<?php if (isset($message)): ?>
-	<p> <?= $message ?> </p>
+<?php if (isset($_SESSION ['notes']['message'])): ?>
+	<p> <?= $_SESSION ['notes']['message'] ?> </p>
 <?php endif ?>
 
     <form action="registratie-process.php" method="post">
@@ -24,7 +24,7 @@
             </li>
             <li>
                 <label for="password">paswoord</label>
-                <input <?= (isset($_POST ['generatePassword']))? 'type="text"' : 'type="password"'; ?>type="text" name="password"id="password" value="<?php if (isset($passwordValue)): ?><?= $passwordValue ?><?php else: ?><?= (isset($_SESSION['password'])) ? $_SESSION['password'] : '' ; ?><?php endif ?>">
+                <input <?= (isset($_POST ['generatePassword']))? 'type="text"' : 'type="password"'; ?>type="text" name="password" id="password" value="<?php if (isset($passwordValue)): ?><?= $passwordValue ?><?php else: ?><?= (isset($_SESSION['password'])) ? $_SESSION['password'] : '' ; ?><?php endif ?>">
 
                 <input type="submit" name="generatePassword" value="Generate password">
             </li>

@@ -23,7 +23,7 @@ if (isset($_POST['submit']))
 
 try
 {
-	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', 'xivimmivix' );
+	$db = new PDO('mysql:host=localhost;dbname=bieren', 'root', '' );
 
 	$sql = 'INSERT INTO  brouwers 
 						(brnaam, 
