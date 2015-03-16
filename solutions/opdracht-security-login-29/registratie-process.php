@@ -60,133 +60,139 @@ if (isset($_POST ['generatePassword']) && ($_POST ['generatePassword'] == 'Gener
 
 try {
 
-$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
+	$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
 
-    $db =   new Database( $db );
+	$db =   new Database( $db );
 
-if (isset($_POST ['submit'] )) 
-{
-	$_SESSION['email'] = $_POST ['email'];
-	$_SESSION['password'] = $_POST ['password'];
-
-	if ($_POST ['password'] == '' || $_POST ['email'] == '') 
+	if (isset($_POST ['submit'] )) 
 	{
+		$_SESSION['email'] 		= $_POST ['email'];
+		$_SESSION['password'] 	= $_POST ['password'];
+
+		if ($_POST ['password'] == '' || $_POST ['email'] == '') 
+		{
 			$_SESSION ['notes']['type'] = 'error';
 			$_SESSION ['notes']['message'] = 'password and/or email are not filled in';
-	}
-	else
-	{
-		/*
-		##manual
 
+			header('location: registratie-form.php');
 
-		$pattern 	=	'/[\w!#$%&\'*+\/=?^_`{|}~-]+(?:\.[\w!#$%&\'\*+\/=?\^_`{|}~-]+)*@(?:[\w]*\.)+(?:\w{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/';
-
-		$check 	=	preg_match($pattern, $_SESSION['email'] );
-
-		*/
-		$check	=	filter_var($_SESSION['email'], FILTER_VALIDATE_EMAIL);
-
-
-		if (!$check) 
+		}
+		else
 		{
-			$_SESSION ['notes']['type'] = 'error';
-			$_SESSION ['notes']['message'] = 'email not correct';
-		} 
-		else 
-		{
+			/*
+			##manual
 
 
+			$pattern 	=	'/[\w!#$%&\'*+\/=?^_`{|}~-]+(?:\.[\w!#$%&\'\*+\/=?\^_`{|}~-]+)*@(?:[\w]*\.)+(?:\w{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/';
+
+			$check 	=	preg_match($pattern, $_SESSION['email'] );
+
+			*/
+			$check	=	filter_var($_SESSION['email'], FILTER_VALIDATE_EMAIL);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			$emailcheck	=	$db->query(	'SELECT email 
-										FROM users 
-										WHERE email = :email',
-										array(':email' => $_SESSION['email']));
-
-
-
-			if ( isset( $emailcheck[ 0 ] ) )
+			if (!$check) 
 			{
-				$_SESSION ['notes']['type'] 		= 'error';
-				$_SESSION ['notes']['message'] 	= $_SESSION['email'] . ' is taken';
-			}
+				$_SESSION ['notes']['type'] = 'error';
+				$_SESSION ['notes']['message'] = 'email not correct';
+				header('location: registratie-form.php');
+			} 
 			else 
 			{
 
 
-				$date 		= 	date("Y-m-d H:i:s");
 
-				$salt		=	generatePassword (2, 1, 1, 22);
 
-				$hash 		= 	hash('sha256', $salt . $_SESSION['password']);
 
-				$statemant2 	=	'INSERT INTO users 
-												(email, 
-												salt, 
-												hashed_password, 
-												last_login_time) 
-												VALUES (
-														:email,
-														:salt,
-														:hashed_password,
-														:last_login_time)';
-				$denom2 		=	array(
-											    ':email' 			=> $_SESSION['email'],
-											    ':salt'				=> $salt,
-												':hashed_password'	=> $hash,
-												':last_login_time'	=> $date
-											    );
-				$emailadd	=	$db->query(	$statemant2 , $denom2);
-				if ($emailadd)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				$emailcheck	=	$db->query(	'SELECT email 
+											FROM users 
+											WHERE email = :email',
+											array(':email' => $_SESSION['email']));
+
+
+
+				if ( isset( $emailcheck[ 0 ] ) )
 				{
-
-				$_SESSION ['notes']['type'] 		= 'error';
-				$_SESSION ['notes']['message'] 	= 'internal error';
+					$_SESSION ['notes']['type'] 		= 'error';
+					$_SESSION ['notes']['message'] 	= $_SESSION['email'] . ' is taken';
+					header('location: registratie-form.php');
 				}
 				else 
 				{
-					
-				unset($_SESSION ['notes']);
 
 
-				$rev	=	$db->query(	'SELECT email, hashed_password
-										FROM users 
-										WHERE email = :email',
-										array(':email' => $_SESSION['email']));
+					$date 		= 	date("Y-m-d H:i:s");
 
-				var_dump($rev);
+					$salt		=	generatePassword (2, 1, 1, 22);
+
+					$hash 		= 	hash('sha256', $salt . $_SESSION['password']);
+
+					$statemant2 	=	'INSERT INTO users 
+													(email, 
+													salt, 
+													hashed_password, 
+													last_login_time) 
+													VALUES (
+															:email,
+															:salt,
+															:hashed_password,
+															:last_login_time)';
+					$denom2 		=	array(
+												    ':email' 			=> $_SESSION['email'],
+												    ':salt'				=> $salt,
+													':hashed_password'	=> $hash,
+													':last_login_time'	=> $date
+												    );
+					$emailadd	=	$db->query(	$statemant2 , $denom2);
+
+					if ($emailadd)
+					{
+
+						$_SESSION ['notes']['type'] 		= 'error';
+						$_SESSION ['notes']['message'] 	= 'internal error';
+						header('location: registratie-form.php');
+					}
+					else 
+					{
+						
+						unset($_SESSION ['notes']);
 
 
-				$value = $rev[ 0 ] ['email'] . ',' . $rev[ 0 ] ['hashed_password'] ;
-				setcookie("login", $value, time()+2592000);
+						$rev	=	$db->query(	'SELECT email, hashed_password
+												FROM users 
+												WHERE email = :email',
+												array(':email' => $_SESSION['email']));
+
+						#var_dump($rev);
+
+						$value = $rev[ 0 ] ['email'] . ',' . $rev[ 0 ] ['hashed_password'] ;
+						setcookie("login", $value, time()+2592000);
 
 						header('location: dashboard.php');
-				}
-				
+					}
+					
 
+				}
 			}
+			
 		}
-		
 	}
-}
 
 
 } 
@@ -196,16 +202,17 @@ catch (Exception $e)
 }
 
 
-var_dump($_POST);
-var_dump($_SESSION);
+#var_dump($_POST);
+#var_dump($_SESSION);
 
 
-include_once 'registratie-form.php';
+						header('location: registratie-form.php');
+#include_once 'registratie-form.php';
 
 
 
 
-unset(			$_SESSION ['notes'] );
+#unset(			$_SESSION ['notes'] );
 
 
 

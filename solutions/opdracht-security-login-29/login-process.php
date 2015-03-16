@@ -17,35 +17,35 @@ $email			=	$_SESSION ['email'];
 try 
 {
 
-$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
+	$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
 
-    $db =   new Database( $db );
-
-
-				$rev	=	$db->query(	'SELECT email, hashed_password, salt
-										FROM users 
-										WHERE email = :email',
-										array(':email' => $_SESSION['email']));
+	$db =   new Database( $db );
 
 
-$wassword 		= 	hash('sha256', $rev[ 0 ] ['salt'] . $_SESSION['password']);
-$dbpass 		=	$rev[ 0 ] ['hashed_password']
+	$rev	=	$db->query(	'SELECT email, hashed_password, salt
+							FROM users 
+							WHERE email = :email',
+							array(':email' => $_SESSION['email']));
 
-if ($wassword == $dbpass)
-{
-	$value = $rev[ 0 ] ['email'] . ',' . $rev[ 0 ] ['hashed_password'];
 
-	setcookie("login", $value, time()+2592000);
+	$wassword 		= 	hash('sha256', $rev[ 0 ] ['salt'] . $_SESSION['password']);
+	$dbpass 		=	$rev[ 0 ] ['hashed_password']
 
-	header('location: dashboard.php');
-} 
-else 
-{
-	$_SESSION ['notes']['type'] 		= 'error';
-	$_SESSION ['notes']['message'] 	= 'wrong email or password';
-	header('location: login-form.php');
+	if ($wassword == $dbpass)
+	{
+		$value = $rev[ 0 ] ['email'] . ',' . $rev[ 0 ] ['hashed_password'];
 
-}
+		setcookie("login", $value, time()+2592000);
+
+		header('location: dashboard.php');
+	} 
+	else 
+	{
+		$_SESSION ['notes']['type'] 		= 'error';
+		$_SESSION ['notes']['message'] 	= 'wrong email or password';
+		header('location: login-form.php');
+
+	}
 
 
 } 
@@ -53,4 +53,6 @@ catch (Exception $e)
 {
 	$message = 'non connect';
 }
+
+	header('location: login-form.php');
  ?>
