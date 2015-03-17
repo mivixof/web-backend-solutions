@@ -18,51 +18,75 @@ define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ]
 
 function generatePassword ($caps, $num, $sigh, $len)
 {
-$numbers 	= 	'';
-$capitals 	= 	'';
-$signs		=	'';
+	$numbers 	= 	'';
+	$capitals 	= 	'';
+	$signs		=	'';
 
 
-if ($caps == 1) 
-{
-	$capitals	= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-}
-if ($caps == 2) 
-{
-	$capitals 	= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-}
-if ($caps == 3) 
-{
-	$capitals 	= 'abcdefghijklmnopqrstuvwxyz';
-}
-if ($num == 1) 
-{
-	$numbers 	= '0123456789';
-}
-if ($sigh == 1) 
-{
-	$signs 		= '!@#$%^&*()_+-=[]{}\\|';
-}
+	if ($caps == 1) 
+	{
+		$capitals	= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	}
+	if ($caps == 2) 
+	{
+		$capitals 	= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	}
+	if ($caps == 3) 
+	{
+		$capitals 	= 'abcdefghijklmnopqrstuvwxyz';
+	}
+	if ($num == 1) 
+	{
+		$numbers 	= '0123456789';
+	}
+	if ($sigh == 1) 
+	{
+		$signs 		= '!@#$%^&*()_+-=[]{}\\|';
+	}
 
-$total			=	$numbers . $capitals . $signs;
+	$total			=	$numbers . $capitals . $signs;
 
- return substr(str_shuffle($total), 0, $len);
+	return substr(str_shuffle($total), 0, $len);
 
 }
 
 if (isset($_POST ['generatePassword']) && ($_POST ['generatePassword'] == 'Generate password')) 
 {
-	$passwordValue = generatePassword(2, 1, 1, 10);
+	$_SESSION ['password'] = generatePassword(2, 1, 1, 10);
+						$_SESSION ['clear'] = 'clear';
+						header('location: registratie-form.php');
 }
 
 
 
 
-try {
-
+try 
+{
 	$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
 
 	$db =   new Database( $db );
+
+	if (isset($_COOKIE ['login'])) 
+	{
+	
+		$cookie 		= 	explode(',', $_COOKIE ['login']);
+
+		$red	=	$db->query(	'SELECT email, hashed_password
+											FROM users 
+											WHERE email = :email',
+											array(':email' => $cookie [0]));
+
+		if ($cookie [ 1 ]  == $red[ 0 ] ['hashed_password']) 
+		{
+			$_SESSION ['display'] 		=  1;
+			header('location: dashboard.php');
+		} 
+		else 
+		{
+			setcookie("login", 0, time()-360);
+			header('location: registratie-form.php');
+		}
+	}
 
 	if (isset($_POST ['submit'] )) 
 	{
@@ -100,26 +124,6 @@ try {
 			else 
 			{
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				$emailcheck	=	$db->query(	'SELECT email 
 											FROM users 
 											WHERE email = :email',
@@ -135,8 +139,6 @@ try {
 				}
 				else 
 				{
-
-
 					$date 		= 	date("Y-m-d H:i:s");
 
 					$salt		=	generatePassword (2, 1, 1, 22);
@@ -164,7 +166,7 @@ try {
 					if ($emailadd)
 					{
 
-						$_SESSION ['notes']['type'] 		= 'error';
+						$_SESSION ['notes']['type'] 	= 'error';
 						$_SESSION ['notes']['message'] 	= 'internal error';
 						header('location: registratie-form.php');
 					}
@@ -183,33 +185,29 @@ try {
 
 						$value = $rev[ 0 ] ['email'] . ',' . $rev[ 0 ] ['hashed_password'] ;
 						setcookie("login", $value, time()+2592000);
+						session_destroy();
 
 						header('location: dashboard.php');
 					}
-					
-
 				}
 			}
-			
 		}
 	}
-
-
 } 
 catch (Exception $e) 
 {
-	$message = 'non connect';
+	$_SESSION ['notes']['type'] 		= 'error';
+	$_SESSION ['notes']['message'] 		= 'non connect';
 }
 
 
 #var_dump($_POST);
 #var_dump($_SESSION);
 
-
-						header('location: registratie-form.php');
 #include_once 'registratie-form.php';
 
 
+header('location: login-form.php');
 
 
 #unset(			$_SESSION ['notes'] );

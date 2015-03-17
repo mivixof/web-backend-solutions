@@ -1,3 +1,10 @@
+<?php 
+
+
+session_start();
+var_dump($_SESSION);
+
+ ?>
 
 
 
@@ -24,7 +31,7 @@
             </li>
             <li>
                 <label for="password">paswoord</label>
-                <input <?= (isset($_POST ['generatePassword']))? 'type="text"' : 'type="password"'; ?>type="text" name="password" id="password" value="<?php if (isset($passwordValue)): ?><?= $passwordValue ?><?php else: ?><?= (isset($_SESSION['password'])) ? $_SESSION['password'] : '' ; ?><?php endif ?>">
+                <input <?= (isset($_SESSION ['clear']))? 'type="text"' : 'type="password"'; ?>type="text" name="password" id="password" value="<?= (isset($_SESSION['password'])) ? $_SESSION['password'] : '' ; ?>">
 
                 <input type="submit" name="generatePassword" value="Generate password">
             </li>

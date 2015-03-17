@@ -6,10 +6,15 @@
 	}
 
 
-session_start();
-session_destroy();
-
 define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ] );
+
+session_start();
+
+if (isset($_GET ['log'])) 
+{
+	setcookie("login", 0, time()-420);
+	header('location: login-form.php');
+}
 
 
 
@@ -40,21 +45,23 @@ if (isset($_COOKIE ['login']))
 										WHERE email = :email',
 										array(':email' => $cookie [0]));
 
+	if ($cookie [ 1 ]  == $red[ 0 ] ['hashed_password']) 
+	{
+		$_SESSION ['display'] 		=  1;
+	} 
+	else 
+	{
+		setcookie("login", 0, time()-360);
+		header('location: login-form.php');
+	}
 
 }
-
-
-
-if ($cookie [ 1 ]  == $red[ 0 ] ['hashed_password']) 
+else
 {
-	$displaypage = 1;
-	return;
-} 
-else 
-{
-	setcookie("login", 0, 0);
 	header('location: login-form.php');
 }
+
+
 
 
 
@@ -63,23 +70,13 @@ else
 } 
 catch (Exception $e) 
 {
-	$message = 'non connect';
+	$_SESSION ['notes']['type'] 		= 'error';
+	$_SESSION ['notes']['message'] 		= 'non connect';
 }
 
 
 var_dump($cookie [ 1 ], $red[ 0 ] ['hashed_password']);
-
-
-
-
-
-
-
-
-
-
-
-
+var_dump($_COOKIE, $_SESSION);
 
 
 
@@ -98,12 +95,15 @@ var_dump($cookie [ 1 ], $red[ 0 ] ['hashed_password']);
         <link rel="stylesheet" href="http://web-backend.local/css/directory.css">
  </head>
  <body>
-	<?php if (isset($displaypage)): ?>
+<?php if (isset($_SESSION ['notes']['message'])): ?>
+	<p> <?= $_SESSION ['notes']['message'] ?> </p>
+<?php endif ?>
+	<?php if (isset($_SESSION ['display'])): ?>
 
 
  		<h1>Dashboard</h1>
 
-  		<a href="logout.php">Logout</a>
+  		<a href="<?= BASE_URL . '?log=' ?>">Logout</a>
 
 
     <?php endif ?>

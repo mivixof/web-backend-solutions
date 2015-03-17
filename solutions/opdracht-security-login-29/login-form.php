@@ -1,20 +1,9 @@
-
 <?php 
-
-
 session_start();
-
-
-
-
-
-
-
-
-
-
-
-
+if (isset($_COOKIE ['login'])) 
+{
+    header('location: login-process.php');
+}
  ?>
 
 
@@ -38,11 +27,11 @@ session_start();
 <?php endif ?>
 
 
-    <form action="registratie-process.php" method="post">
+    <form action="login-process.php" method="post">
         <ul>
             <li>
                 <label for="email">e-mail</label>
-                <input type="text" name="email" id="email" value="<?= (isset($_SESSION['email'] )) ? $_SESSION['email']  : '' ; ?>">>
+                <input type="text" name="email" id="email" value="<?= (isset($_SESSION['email'] )) ? $_SESSION['email']  : '' ; ?>">
             </li>
             <li>
                 <label for="password">pasword</label>
