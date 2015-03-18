@@ -39,14 +39,15 @@ try
 		}
 	}
 
-
-
-	if (isset($_SESSION ['password']) && isset($_SESSION ['email'])) 
+	if (isset($_POST ['password']) && isset($_POST ['email'])) 
 	{
 
+		$password 		=	$_POST ['password'];
+		$email			=	$_POST ['email'];
 
-		$password 		=	$_SESSION ['password'];
-		$email			=	$_SESSION ['email'];
+
+		$_SESSION ['password']		=			$_POST ['password'];
+		$_SESSION ['email']			=			$_POST ['email'];
 
 
 		$rev	=	$db->query(	'SELECT email, hashed_password, salt

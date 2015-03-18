@@ -3,6 +3,10 @@
 
 session_start();
 var_dump($_SESSION);
+if (isset($_COOKIE ['login'])) 
+{
+    header('location: login-process.php');
+}
 
  ?>
 

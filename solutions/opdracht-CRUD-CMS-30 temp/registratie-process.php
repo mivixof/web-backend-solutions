@@ -62,7 +62,7 @@ if (isset($_POST ['generatePassword']) && ($_POST ['generatePassword'] == 'Gener
 
 try 
 {
-	$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
+	$db = new PDO('mysql:host=localhost;dbname=opdracht-cms', 'root', ''); 
 
 	$db =   new Database( $db );
 
@@ -207,7 +207,7 @@ catch (Exception $e)
 #include_once 'registratie-form.php';
 
 
-header('location: login-form.php');
+header('location: registratie-form.php');
 
 
 #unset(			$_SESSION ['notes'] );

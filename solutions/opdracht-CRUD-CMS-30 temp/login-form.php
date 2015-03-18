@@ -4,6 +4,8 @@ if (isset($_COOKIE ['login']))
 {
     header('location: login-process.php');
 }
+
+var_dump($_SESSION);
  ?>
 
 

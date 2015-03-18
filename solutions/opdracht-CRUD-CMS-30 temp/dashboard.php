@@ -103,7 +103,9 @@ var_dump($_COOKIE, $_SESSION);
 
  		<h1>Dashboard</h1>
 
-           
+            <ul>
+                <li><a href="artikel-overzicht.php">Artikels</a></li>
+            </ul>
 
     <?php endif ?>
 

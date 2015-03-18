@@ -1,7 +1,7 @@
 <?php 
 
 
-session_start()
+session_start();
 unset($_SESSION);
 			$_SESSION ['notes']['type'] = 'ok';
 			$_SESSION ['notes']['message'] = 'You are now logged out. Cya.';
