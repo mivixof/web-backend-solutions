@@ -207,7 +207,7 @@ catch (Exception $e)
 #include_once 'registratie-form.php';
 
 
-header('location: login-form.php');
+//header('location: login-form.php');
 
 
 #unset(			$_SESSION ['notes'] );

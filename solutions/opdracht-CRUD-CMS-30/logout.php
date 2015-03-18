@@ -2,6 +2,7 @@
 
 
 session_start()
+unset($_SESSION);
 			$_SESSION ['notes']['type'] = 'ok';
 			$_SESSION ['notes']['message'] = 'You are now logged out. Cya.';
 						setcookie("login", 0, time()-2592000);

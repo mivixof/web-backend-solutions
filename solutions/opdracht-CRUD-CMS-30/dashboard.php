@@ -23,7 +23,7 @@ if (isset($_GET ['log']))
 
 try {
 
-$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
+$db = new PDO('mysql:host=localhost;dbname=opdracht-cms', 'root', ''); 
 
     $db =   new Database( $db );
 
@@ -47,7 +47,8 @@ if (isset($_COOKIE ['login']))
 
 	if ($cookie [ 1 ]  == $red[ 0 ] ['hashed_password']) 
 	{
-		$_SESSION ['display'] 		=  1;
+		$_SESSION ['display'] 		=  	1;
+		$_SESSION ['email'] 		=	$cookie[ 0 ];
 	} 
 	else 
 	{
@@ -101,10 +102,15 @@ var_dump($_COOKIE, $_SESSION);
 	<?php if (isset($_SESSION ['display'])): ?>
 
 
+
+		<p><a href="dashboard.php">Terug naar dashboard</a> | Ingelogd als <?= $_SESSION ['email'] ?> | <a href="<?= BASE_URL . '?log=' ?>">Logout</a>/p>   
+
+
  		<h1>Dashboard</h1>
 
-  		<a href="<?= BASE_URL . '?log=' ?>">Logout</a>
-
+            <ul>
+                <li><a href="artikel-overzicht.php">Artikels</a></li>
+            </ul>
 
     <?php endif ?>
 

@@ -12,7 +12,7 @@ define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ]
 try 
 {
 
-	$db = new PDO('mysql:host=localhost;dbname=opdracht-security-login', 'root', ''); 
+	$db = new PDO('mysql:host=localhost;dbname=opdracht-cms', 'root', ''); 
 
     $db =   new Database( $db );
 
