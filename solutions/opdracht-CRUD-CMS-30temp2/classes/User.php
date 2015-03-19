@@ -132,7 +132,6 @@
 
 					if ( $hashedEmail === $cookieHashedEmail )
 					{
-						$this->email = $cookieEmail;
 						$isValid	=	true;
 					}
 				}
@@ -190,11 +189,6 @@
 			}
 
 			return $userExists;
-		}
-
-		public function getEmail()
-		{
-			return $this->email;
 		}
 	}
 

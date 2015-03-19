@@ -1,6 +1,45 @@
 <?php 
 
-session_start()
+    session_start();
+
+    function relocate( $url )
+    {
+        header('location: ' . $url );
+    }
+
+    function my_autoloader($class) {
+        include 'classes/' . $class . '.php';
+    }
+
+    spl_autoload_register( 'my_autoloader' );
+
+    define( 'BASE_URL', 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ] );
+    define( 'HOST', dirname( BASE_URL ) . '/');
+    
+    $message    =   false;
+
+    if ( Message::hasMessage() )
+    {
+        $message = Message::getMessage();
+
+        Message::remove();
+    }
+
+
+    $db = new PDO('mysql:host=localhost;dbname=opdracht-cms', 'root', ''); // Connectie maken
+
+    $databaseWrapper    =   new Database( $db );
+
+    $user = new User( $databaseWrapper );
+
+    if ( !$user->validate() )
+    {
+        new Message( "U moet eerst inloggen", "error" );
+        relocate("oplossing-security-login-login-form.php");
+    }
+
+
+    //===============================================================================
 
 
 unset($_SESSION ['notes']);
@@ -29,10 +68,10 @@ try {
                                             :kernwoorden ,
                                             :datum)';
     $add         =   array(
-                                    ':titel'            => $_POST ['titel'];,
-                                    ':artikel'          => $_POST ['artikel'];	
-                                    ':kernwoorden '  	=> $_POST ['kernwoorden'];	
-                                    ':datum'  			=> $_POST ['datum)'];	
+                                    ':titel'            => $_POST ['titel'],
+                                    ':artikel'          => $_POST ['artikel'],	
+                                    ':kernwoorden '  	=> $_POST ['kernwoorden'],	
+                                    ':datum'  			=> $_POST ['datum)']
                                     );
     $result   =   $db->query( $statement , $add);
 

@@ -6,9 +6,11 @@
 
 		private $cookieDelimiter	=	'#@#';
 
+		private $id			=	'';
 		private $email		=	'';
 		private $password	=	'';
 		private $salt		=	'';
+		private $profilePicture		=	'';
 		private $usertype	=	'';
 
 		public function __construct( $db )
@@ -116,7 +118,9 @@
 				$cookieEmail		=	$rawCookieData[ 0 ];
 				$cookieHashedEmail	=	$rawCookieData[ 1 ];
 
-				$validateQuery	=	'SELECT salt
+				$validateQuery	=	'SELECT id,
+											salt,
+											profile_picture
 										FROM users
 										WHERE email = :email';
 
@@ -126,7 +130,9 @@
 
 				if ( $result )
 				{
-					$this->salt		=	$result[0]['salt'];
+					$this->id				=	$result[0]['id'];
+					$this->salt				=	$result[0]['salt'];
+					$this->profilePicture	=	$result[0]['profile_picture'];
 
 					$hashedEmail 	=	$this->hash( $cookieEmail, $this->salt );
 
@@ -195,6 +201,16 @@
 		public function getEmail()
 		{
 			return $this->email;
+		}
+
+		public function getProfilePicture()
+		{
+			return $this->profilePicture;
+		}
+
+		public function getId()
+		{
+			return $this->id;
 		}
 	}
 
